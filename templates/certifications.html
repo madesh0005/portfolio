@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certifications | {{ data.get('profile', {}).get('name', 'Developer') }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        :root {
+            --g-blue: #1a73e8;
+            --g-red: #ea4335;
+            --bg-color: #ffffff;
+            --surface: #f8f9fa;
+            --text-main: #202124;
+            --text-sub: #5f6368;
+            --border: #dadce0;
+            --radius: 24px;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Google Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            padding: 15px 6%;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover { color: var(--g-blue); }
+
+        /* Header */
+        header {
+            padding: 60px 10% 40px;
+            text-align: left;
+        }
+
+        h1 { font-size: 36px; font-weight: 500; margin-bottom: 10px; }
+        .subtitle { color: var(--text-sub); font-size: 18px; }
+
+        /* Grid */
+        .cert-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 6% 100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .cert-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 30px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .cert-card:hover {
+            background: #fff;
+            border-color: var(--g-red);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-4px);
+        }
+
+        .domain-tag {
+            color: var(--g-red);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .cert-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin: 0 0 8px 0;
+            color: var(--text-main);
+        }
+
+        .issuer {
+            font-size: 14px;
+            color: var(--text-sub);
+            margin-bottom: 20px;
+        }
+
+        .view-link {
+            align-self: flex-start;
+            padding: 10px 20px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        .view-link:hover {
+            background: var(--g-red);
+            color: white;
+            border-color: var(--g-red);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid var(--border);
+            color: var(--text-sub);
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="{{ url_for('index') }}" class="back-btn">
+        <span class="material-symbols-outlined">arrow_back</span>
+        Back to Portfolio
+    </a>
+</nav>
+
+<header>
+    <h1>Certifications</h1>
+    <p class="subtitle">Professional milestones and academic achievements.</p>
+</header>
+
+<div class="cert-grid">
+    {% for id, cert in data.get('certifications', {}).items() %}
+    {% if not cert.hidden %}
+    <div class="cert-card">
+        <div>
+            <div class="domain-tag">{{ cert.domain }}</div>
+            <h3 class="cert-title">{{ cert.title }}</h3>
+            <div class="issuer">Issued by {{ cert.issuer }}</div>
+        </div>
+        
+        <a href="{{ cert.link }}" target="_blank" class="view-link">
+            <span class="material-symbols-outlined" style="font-size: 18px;">description</span>
+            View Certificate (PDF)
+        </a>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+<footer>
+    &copy; 2026 {{ data.get('profile', {}).get('name') }} • Verified Credentials
+</footer>
+
+</body>
+</html>
