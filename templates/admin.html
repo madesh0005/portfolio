@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Command Center | AATHISUDHAN A.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --g-blue: #1a73e8; --g-red: #ea4335; --bg: #f8f9fa; --card: #ffffff; --text: #202124; --border: #dadce0; }
+        body { background: var(--bg); font-family: 'Google Sans', sans-serif; margin: 0; display: flex; color: var(--text); }
+        
+        .sidebar { width: 280px; background: #fff; height: 100vh; border-right: 1px solid var(--border); padding: 30px 20px; position: fixed; box-sizing: border-box; }
+        .main-content { margin-left: 280px; padding: 40px; width: calc(100% - 280px); box-sizing: border-box; }
+        
+        .bento-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 24px; }
+        .card { background: var(--card); border-radius: 16px; padding: 24px; border: 1px solid var(--border); transition: 0.2s; position: relative; }
+        .card:hover { box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        
+        h3 { margin: 0 0 15px 0; color: var(--g-blue); font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        input, textarea, select { width: 100%; padding: 12px; border: 1px solid #dfe1e5; border-radius: 8px; margin-bottom: 10px; font-family: inherit; font-size: 14px; box-sizing: border-box; }
+        textarea { resize: vertical; min-height: 80px; }
+        
+        .btn-add { background: var(--g-blue); color: white; border: none; padding: 12px; border-radius: 24px; cursor: pointer; font-weight: 500; width: 100%; transition: background 0.2s; }
+        .btn-add:hover { background: #1765cc; }
+        
+        .list-container { margin-top: 20px; max-height: 200px; overflow-y: auto; border-top: 1px solid #f1f3f4; padding-top: 10px; }
+        .live-item { background: #f8f9fa; padding: 10px 15px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; border: 1px solid #eee; }
+        .del-btn { color: var(--g-red); cursor: pointer; border: none; background: none; font-size: 18px; padding: 0 5px; line-height: 1; }
+        .del-btn:hover { color: #b31412; }
+        .empty-msg { font-size: 12px; color: #9aa0a6; text-align: center; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2 style="color:var(--g-blue); margin-bottom: 5px;">AATHISUDHAN</h2>
+    <p style="color:#5f6368; font-size:12px; margin-top: 0;">System Architect Admin</p>
+    <div style="margin-top: 40px;">
+        <p style="font-size: 14px; color: var(--g-blue); font-weight: 500;">✓ Database Connected</p>
+        <p style="font-size: 14px; color: #5f6368;">✓ Live Preview Mode</p>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="bento-grid">
+
+        <div class="card">
+            <h3>👤 Profile (Single)</h3>
+            <input type="text" id="profile-name" placeholder="Full Name">
+            <input type="date" id="profile-dob" placeholder="Date of Birth">
+            <input type="text" id="profile-prof" placeholder="Profession">
+            <input type="text" id="profile-address" placeholder="Address">
+            <input type="tel" id="profile-phone" placeholder="Phone Number">
+            <input type="email" id="profile-email" placeholder="Email">
+            <button class="btn-add" onclick="pushData('profile', {name:'profile-name', dob:'profile-dob', profession:'profile-prof', address:'profile-address', phone:'profile-phone', email:'profile-email'})">Save Profile</button>
+            <div class="list-container" id="profile-preview">
+                {% if data.get('profile') %}
+                <div class="live-item"><span>{{data.get('profile').get('name')}}</span></div>
+                {% else %}
+                <div class="empty-msg">No profile saved yet.</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📊 Coding & Platforms (Single editable entries)</h3>
+            <p style="font-size:13px; color:#5f6368; margin:6px 0 10px 0;">LeetCode</p>
+            <input type="text" id="lc-username" placeholder="LeetCode Username">
+            <input type="text" id="lc-link" placeholder="LeetCode Link">
+            <p style="font-size:13px; color:#5f6368; margin:6px 0 10px 0;">HackerRank</p>
+            <input type="text" id="hr-username" placeholder="HackerRank Username">
+            <input type="text" id="hr-link" placeholder="HackerRank Link">
+            <p style="font-size:13px; color:#5f6368; margin:6px 0 10px 0;">GitHub</p>
+            <input type="text" id="gh-username" placeholder="GitHub Username">
+            <input type="text" id="gh-link" placeholder="GitHub Link">
+            <button class="btn-add" onclick="pushData('socials', {leetcode_user:'lc-username', leetcode_link:'lc-link', hackerrank_user:'hr-username', hackerrank_link:'hr-link', github_user:'gh-username', github_link:'gh-link'})">Save Profiles</button>
+            <div class="list-container" id="socials-preview">
+                {% if data.get('socials') %}
+                <div class="live-item"><span>Profiles saved</span></div>
+                {% else %}
+                <div class="empty-msg">No social profiles saved yet.</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🛠️ Technical Skills</h3>
+            <input type="text" id="skill-name" placeholder="Skill (e.g. Python)">
+            
+            <select id="skill-level">
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate" selected>Intermediate</option>
+                <option value="Advanced">Advanced</option>
+                <option value="Expert">Expert</option>
+            </select>
+
+            <button class="btn-add" id="skill-action" onclick="pushData('skills', {name: 'skill-name', level: 'skill-level'})">Add Skill</button>
+            
+            <div class="list-container">
+                {% for id, item in data.get('skills', {}).items() %}
+                <div class="live-item">
+                    <span><strong>{{item.name}}</strong> — {{item.level}}</span>
+                    <div>
+                        <button class="del-btn" onclick="startEdit('skills','{{id}}')" >✎</button>
+                        <button class="del-btn" onclick="deleteData('skills','{{id}}')" >×</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🎓 Education (Multiple)</h3>
+            <input type="text" id="edu-school" placeholder="School/College Name (required)">
+            <input type="text" id="edu-title" placeholder="Education Title (e.g. B.Tech AI&DS, SSLC, HSC) (required)">
+            <input type="number" id="edu-start" placeholder="Start Year (optional)">
+            <input type="number" id="edu-end" placeholder="End Year (optional)">
+            <button class="btn-add" id="edu-action" onclick="pushData('education', {school:'edu-school', title:'edu-title', start_year:'edu-start', end_year:'edu-end'})">Add Education</button>
+            <div class="list-container" id="education-list">
+                {% for id, item in data.get('education', {}).items() %}
+                <div class="live-item"><span>{{item.title}} @ {{item.school}}</span>
+                    <div>
+                        <button class="del-btn" onclick="startEdit('education','{{id}}')">✎</button>
+                        <button class="del-btn" onclick="deleteData('education','{{id}}')">×</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🚀 Projects (Multiple)</h3>
+            <input type="text" id="proj-title" placeholder="Project Title">
+            <input type="text" id="proj-team" placeholder="Team Members (comma-separated)">
+            <input type="text" id="proj-domain" placeholder="Domain">
+            <textarea id="proj-desc" placeholder="Project Description"></textarea>
+            <input type="date" id="proj-date" placeholder="Project Date">
+            <input type="text" id="proj-link" placeholder="Project URL (GitHub/Live)">
+            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><input type="checkbox" id="proj-hide"> Hide (true/false)</label>
+            <button class="btn-add" id="proj-action" onclick="pushData('projects', {title:'proj-title', team:'proj-team', domain:'proj-domain', desc:'proj-desc', date:'proj-date', link:'proj-link', hidden:'proj-hide'})">Add Project</button>
+            <div class="list-container" id="projects-list">
+                {% for id, item in data.get('projects', {}).items() %}
+                <div class="live-item"><span>{{item.title}} {% if item.hidden %}(Hidden){% endif %}</span>
+                    <div>
+                        <button class="del-btn" onclick="startEdit('projects','{{id}}')">✎</button>
+                        <button class="del-btn" onclick="deleteData('projects','{{id}}')">×</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📜 Certifications (Multiple)</h3>
+            <input type="text" id="cert-title" placeholder="Certification Title (required)">
+            <input type="text" id="cert-org" placeholder="Issuing Organization (optional)">
+            <input type="date" id="cert-start" placeholder="Start Date (optional)">
+            <input type="date" id="cert-end" placeholder="End Date (optional)">
+            <input type="text" id="cert-domain" placeholder="Domain (optional)">
+            <input type="text" id="cert-id" placeholder="Credential ID (optional)">
+            <input type="text" id="cert-link" placeholder="Credential Link (optional)">
+            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><input type="checkbox" id="cert-hide"> Hide (true/false)</label>
+            <button class="btn-add" id="cert-action" onclick="pushData('certifications', {title:'cert-title', issuer:'cert-org', start:'cert-start', end:'cert-end', domain:'cert-domain', credid:'cert-id', link:'cert-link', hidden:'cert-hide'})">Add Cert</button>
+            <div class="list-container" id="certs-list">
+                {% for id, item in data.get('certifications', {}).items() %}
+                <div class="live-item"><span>{{item.title}} {% if item.hidden %}(Hidden){% endif %}</span>
+                    <div>
+                        <button class="del-btn" onclick="startEdit('certifications','{{id}}')">✎</button>
+                        <button class="del-btn" onclick="deleteData('certifications','{{id}}')">×</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>💼 Experience / Internships</h3>
+            <input type="text" id="exp-role" placeholder="Role (e.g. AI Intern)">
+            <input type="text" id="exp-comp" placeholder="Company Name">
+            <textarea id="exp-desc" placeholder="Key achievements..."></textarea>
+            <input type="text" id="exp-domain" placeholder="Domain (e.g. AI, Web Dev)">
+            <input type="text" id="exp-duration" placeholder="Duration (e.g. 3 months)">
+            <input type="text" id="exp-link" placeholder="Company Link (optional)">
+            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><input type="checkbox" id="exp-hide"> Hide (true/false)</label>
+            <button class="btn-add" id="exp-action" onclick="pushData('internships', {role: 'exp-role', company: 'exp-comp', desc: 'exp-desc', domain: 'exp-domain', duration: 'exp-duration', link: 'exp-link', hidden: 'exp-hide'})">Add Experience</button>
+            <div class="list-container">
+                {% for id, item in data.get('internships', {}).items() %}
+                <div class="live-item"><span>{{item.role}} @ {{item.company}} {% if item.hidden %}(Hidden){% endif %}</span><div><button class="del-btn" onclick="startEdit('internships','{{id}}')">✎</button><button class="del-btn" onclick="deleteData('internships','{{id}}')">×</button></div></div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📱 Contacts & Socials</h3>
+            <input type="text" id="social-label" placeholder="Platform (e.g. Twitter)">
+            <input type="text" id="social-username" placeholder="Username">
+            <input type="text" id="social-url" placeholder="URL Link">
+            <button class="btn-add" id="contact-action" onclick="pushData('contacts', {label: 'social-label', username: 'social-username', url: 'social-url'})">Add Contact</button>
+            <div class="list-container">
+                {% for id, item in data.get('contacts', {}).items() %}
+                <div class="live-item"><span>{{item.label}} (@{{item.username}})</span><div><button class="del-btn" onclick="startEdit('contacts','{{id}}')">✎</button><button class="del-btn" onclick="deleteData('contacts','{{id}}')" >×</button></div></div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // serverData available for client-side editing
+    window.serverData = {{ data | tojson }};
+    let currentEdit = {category: null, id: null};
+
+    function getVal(elId) {
+        const el = document.getElementById(elId);
+        if (!el) return null;
+        if (el.type === 'checkbox') return el.checked;
+        return el.value;
+    }
+
+    async function pushData(category, fieldIds) {
+        const payload = {};
+        for (let key in fieldIds) {
+            const elId = fieldIds[key];
+            const el = document.getElementById(elId);
+            let val = null;
+            if (!el) { val = null; }
+            else if (el.type === 'checkbox') { val = el.checked; }
+            else { val = el.value; }
+
+            // If updating an existing single-record and any field empty, block client-side
+            const SINGLE = ['profile', 'description', 'socials'];
+            if (SINGLE.includes(category) && window.serverData[category] && (val === null || (typeof val === 'string' && val.trim() === ''))) {
+                alert('Please fill all fields in this card');
+                return;
+            }
+
+            // For add operations require title for projects/certifications/achievements
+            if ((category === 'projects' || category === 'certifications' || category === 'achievements') && key === 'title') {
+                if (!val || val.trim() === '') { alert('Title is required'); return; }
+            }
+
+            // For education, require school and title
+            if (category === 'education' && (key === 'school' || key === 'title')) {
+                if (!val || (typeof val === 'string' && val.trim() === '')) { alert('School/College and Education Title are required'); return; }
+            }
+
+            // Skip empty optional fields (start_year, end_year for education)
+            if ((category === 'education' && (key === 'start_year' || key === 'end_year')) && (val === '' || val === null)) {
+                continue;
+            }
+
+            payload[key] = val;
+        }
+
+        let method = 'POST';
+        let url = `/api/${category}`;
+        if (currentEdit.category === category && currentEdit.id) {
+            method = 'PUT';
+            url = `/api/${category}/${currentEdit.id}`;
+        }
+
+        const response = await fetch(url, {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) location.reload();
+        else {
+            const err = await response.json().catch(()=>({message:'Error'}));
+            alert(err.message || 'Request failed');
+        }
+    }
+
+    async function deleteData(category, id) {
+        if (!confirm('Delete this entry?')) return;
+        const response = await fetch(`/api/${category}/${id}`, { method: 'DELETE' });
+        if (response.ok) location.reload();
+    }
+
+    function startEdit(category, id) {
+        const src = (window.serverData && window.serverData[category] && window.serverData[category][id]) || null;
+        if (!src) { alert('Item data not available'); return; }
+        currentEdit = {category, id};
+        if (category === 'projects') {
+            document.getElementById('proj-title').value = src.title || '';
+            document.getElementById('proj-team').value = (src.team || []).join ? (src.team.join(', ')) : (src.team || '');
+            document.getElementById('proj-domain').value = src.domain || '';
+            document.getElementById('proj-desc').value = src.desc || '';
+            document.getElementById('proj-date').value = src.date || '';
+            document.getElementById('proj-link').value = src.link || '';
+            document.getElementById('proj-hide').checked = !!src.hidden;
+            document.getElementById('proj-action').innerText = 'Update Project';
+        }
+        if (category === 'certifications') {
+            document.getElementById('cert-title').value = src.title || '';
+            document.getElementById('cert-org').value = src.issuer || '';
+            document.getElementById('cert-start').value = src.start || '';
+            document.getElementById('cert-end').value = src.end || '';
+            document.getElementById('cert-domain').value = src.domain || '';
+            document.getElementById('cert-id').value = src.credid || '';
+            document.getElementById('cert-link').value = src.link || '';
+            document.getElementById('cert-hide').checked = !!src.hidden;
+            document.getElementById('cert-action').innerText = 'Update Cert';
+        }
+        if (category === 'internships') {
+            document.getElementById('exp-role').value = src.role || '';
+            document.getElementById('exp-comp').value = src.company || '';
+            document.getElementById('exp-desc').value = src.desc || '';
+            document.getElementById('exp-domain').value = src.domain || '';
+            document.getElementById('exp-duration').value = src.duration || '';
+            document.getElementById('exp-link').value = src.link || '';
+            document.getElementById('exp-hide').checked = !!src.hidden;
+            document.getElementById('exp-action').innerText = 'Update Experience';
+        }
+        if (category === 'skills') {
+            document.getElementById('skill-name').value = src.name || '';
+            document.getElementById('skill-val').value = src.value || '';
+            document.getElementById('skill-action').innerText = 'Update Skill';
+        }
+        if (category === 'education') {
+            document.getElementById('edu-school').value = src.school || '';
+            document.getElementById('edu-title').value = src.title || '';
+            document.getElementById('edu-start').value = src.start_year || '';
+            document.getElementById('edu-end').value = src.end_year || '';
+            document.getElementById('edu-action').innerText = 'Update Education';
+        }
+        if (category === 'contacts') {
+            document.getElementById('social-label').value = src.label || '';
+            document.getElementById('social-username').value = src.username || '';
+            document.getElementById('social-url').value = src.url || '';
+            document.getElementById('contact-action').innerText = 'Update Contact';
+        }
+    }
+
+    // Reset edit state if needed
+    function clearEdit() {
+        currentEdit = {category:null, id:null};
+        document.getElementById('proj-action').innerText = 'Add Project';
+        document.getElementById('cert-action').innerText = 'Add Cert';
+        document.getElementById('exp-action').innerText = 'Add Experience';
+        document.getElementById('contact-action').innerText = 'Add Contact';
+        document.getElementById('skill-action').innerText = 'Add Skill';
+        document.getElementById('edu-action').innerText = 'Add Education';
+    }
+</script>
+
+</body>
+</html>
