@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login - DevPortfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --google-blue: #1a73e8;
+            --google-blue-700: #1557b0;
+            --muted: #5f6368;
+            --surface: #ffffff;
+            --bg-soft: #f3f5f7;
+            --text-main: #202124;
+            --card-shadow: rgba(15,23,42,0.08);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Google Sans', 'Roboto', system-ui, -apple-system, 'Segoe UI', Arial;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--bg-soft) 0%, #eef2f6 100%);
+        }
+
+        .split-container { 
+            display: flex; 
+            height: 100vh; 
+            width: 100vw; 
+        }
+        .color-separator {
+            width: 4px;                /* Thickness of the line */
+            height: 100vh;             /* Full height of the screen */
+            z-index: 5;                /* Ensures it stays on top */
+            background: linear-gradient(
+                to bottom, 
+                #1a73e8 0%, #ea4335 25%,   /* Blue */
+                #ea4335 25%, #fbbc05 50%,   /* Red */
+                #fbbc05 50%, #34a853 75%,   /* Yellow */
+                #34a853 75%, #1a73e8 100%   /* Green */
+            );
+        }
+        /* --- Left Side: Google Light Visual --- */
+        .brand-side {
+            flex: 3; /* ~60% */
+            background: linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+            padding: 64px 64px 64px 72px;
+            border-right: 1px solid rgba(15,23,42,0.04);
+        }
+
+        .brand-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+            pointer-events: none;
+            mix-blend-mode: normal;
+        }
+
+        .brand-content {
+            text-align: left;
+            z-index: 2;
+            max-width: 520px;
+            align-self: flex-start;
+            margin-left: 10px;
+        }
+
+        .brand-content h1 {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 2.6rem;
+            color: var(--google-blue);
+            margin: 0 0 12px 0;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+        }
+
+        /* Make decorative/label text non-selectable */
+        .brand-side,
+        .brand-content,
+        .brand-content *,
+        .back-nav,
+        .quote-container,
+        .login-card h2,
+        .login-card .subtitle,
+        .error-msg,
+        .card-footer {
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .quote-container {
+            margin-top: 30px;
+            padding: 20px;
+            border-left: 4px solid var(--google-blue);
+            background: #e8f0fe;
+            border-radius: 0 12px 12px 0;
+            text-align: left;
+        }
+
+        .quote-text {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 1.2rem;
+            color: var(--google-text);
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        /* --- Right Side: Material Login Card --- */
+        .form-side {
+            flex: 2; /* ~40% */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: transparent;
+            padding: 48px 40px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 440px;
+            padding: 42px 40px;
+            border-radius: 16px;
+            background: var(--surface);
+            box-shadow: 0 10px 30px var(--card-shadow);
+            border: 1px solid rgba(15,23,42,0.03);
+        }
+
+        .login-card h2 {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 28px; /* bigger, centered */
+            color: var(--text-main);
+            margin: 0 0 16px 0;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 0.2px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 14px;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+
+        /* Make button label and placeholders non-selectable */
+        .btn-unlock,
+        .btn-unlock * {
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .input-box::placeholder {
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            color: rgba(32,33,36,0.45);
+        }
+
+        /* Make input text non-selectable if requested (note: prevents selecting typed text) */
+        .input-box {
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .input-box {
+            width: 100%;
+            padding: 14px 14px;
+            margin: 10px 0 18px 0;
+            border: 1px solid rgba(15,23,42,0.08);
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: border-color 160ms ease, box-shadow 160ms ease;
+            background: #fff;
+        }
+
+        .input-box:focus {
+            border-color: var(--google-blue);
+            box-shadow: 0 6px 18px rgba(26,115,232,0.08), 0 0 0 4px rgba(26,115,232,0.06);
+            outline: none;
+        }
+
+        .btn-unlock {
+            width: 100%;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, var(--google-blue) 0%, var(--google-blue-700) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-block;
+            box-shadow: 0 8px 26px rgba(26,115,232,0.14);
+            transition: transform 150ms cubic-bezier(.2,.9,.2,1), box-shadow 150ms ease, opacity 120ms ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-unlock::after {
+            content: '';
+            position: absolute;
+            left: 50%; top: 50%;
+            width: 0; height: 0;
+            background: rgba(255,255,255,0.12);
+            transform: translate(-50%,-50%);
+            border-radius: 50%;
+            transition: width 320ms ease, height 320ms ease, opacity 320ms ease;
+            opacity: 0;
+        }
+
+        .btn-unlock:active::after {
+            width: 220px; height: 220px; opacity: 1; transition: width 120ms ease, height 120ms ease, opacity 120ms ease;
+        }
+
+        .btn-unlock:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 40px rgba(26,115,232,0.14);
+        }
+
+        .error-msg {
+            color: #b3261e;
+            background: #fff6f5;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(179,38,30,0.06);
+        }
+
+        .back-nav {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: var(--google-blue-700);
+            text-decoration: none;
+            z-index: 10;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 10px 14px;
+            border: 1px solid rgba(26,115,232,0.12);
+            border-radius: 10px;
+            background: rgba(26,115,232,0.06);
+            backdrop-filter: none;
+            transition: background 160ms ease, transform 120ms ease, box-shadow 120ms ease;
+        }
+
+        .back-nav:active,
+        .back-nav:focus {
+            transform: translateY(0);
+        }
+
+        .back-nav:hover {
+            transform: translateY(-2px);
+            background: rgba(26,115,232,0.12);
+            box-shadow: 0 8px 20px rgba(26,115,232,0.06);
+        }
+
+        @media (max-width: 1024px) {
+            .brand-side { display: none; }
+            body, html { overflow: auto; }
+            .login-card { border-radius: 12px; padding: 28px; }
+            .login-card h2 { font-size: 18px; }
+        }
+
+        .card-footer {
+            margin-top: 28px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--muted);
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="split-container">
+        <div class="brand-side">
+                <a href="/" class="back-nav">Back</a>
+            <canvas id="nodeCanvas" class="brand-canvas"></canvas>
+            
+            <div class="brand-content">
+                <h1>Admin Login</h1>
+                <p style="color: var(--google-grey); font-size: 1.2rem;">Console Access Point</p>
+                
+                <div class="quote-container">
+                    <p class="quote-text">"The best way to predict the future is to create it."</p>
+                    <p style="color: var(--google-blue); margin-top: 8px; font-weight: 500;">— Peter Drucker</p>
+                </div>
+            </div>
+        </div>
+        <div class="color-separator"></div>
+        <div class="form-side">
+            <div class="login-card">
+                <h2>Sign in</h2>
+                <p class="subtitle">Use your Admin Account</p>
+
+                {% if error %}
+                <div class="error-msg">
+                    {{ error }}
+                </div>
+                {% endif %}
+
+                <form method="POST" autocomplete="off" novalidate>
+                    <!-- Use readonly-until-focus + autocomplete hints to discourage browser/password-manager suggestions -->
+                    <input type="email" name="email" class="input-box" placeholder="Email" required autofocus
+                        autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" readonly
+                        onfocus="this.removeAttribute('readonly')">
+                    <input type="password" name="password" class="input-box" placeholder="Password" required
+                        autocomplete="new-password" autocorrect="off" autocapitalize="none" spellcheck="false" readonly
+                        onfocus="this.removeAttribute('readonly')">
+                    
+                    <div style="margin-top: 32px;">
+                        <button type="submit" class="btn-unlock">Login Now</button>
+                    </div>
+                </form>
+                
+                <div class="card-footer">© 2026 By AATHISUDHAN A. All Rights Reserved.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function(){
+            const canvas = document.getElementById('nodeCanvas');
+            const ctx = canvas.getContext('2d');
+            let nodes = [];
+            function resize(){ 
+                canvas.width = canvas.parentElement.clientWidth; 
+                canvas.height = canvas.parentElement.clientHeight; 
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            // Light-themed nodes (Blue and Grey)
+            function createNodes(count){
+                nodes = [];
+                const colors = ['#4285F4', '#EA4335', '#FBBC05', '#34A853'];
+                for(let i=0; i<count; i++){
+                    nodes.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        vx: (Math.random() - 0.5) * (0.4 + Math.random()*0.6),
+                        vy: (Math.random() - 0.5) * (0.4 + Math.random()*0.6),
+                        r: 1.2 + Math.random()*2.6,
+                        color: colors[Math.floor(Math.random()*colors.length)]
+                    });
+                }
+            }
+
+            function draw(){
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                ctx.globalCompositeOperation = 'source-over';
+
+                for(let i=0;i<nodes.length;i++){
+                    const n = nodes[i];
+                    n.x += n.vx; n.y += n.vy;
+                    if(n.x < -20 || n.x > canvas.width + 20) n.vx *= -1;
+                    if(n.y < -20 || n.y > canvas.height + 20) n.vy *= -1;
+
+                    // glow
+                    ctx.beginPath();
+                    ctx.fillStyle = n.color;
+                    ctx.globalAlpha = 0.18;
+                    ctx.shadowColor = n.color;
+                    ctx.shadowBlur = 12;
+                    ctx.arc(n.x, n.y, n.r*3, 0, Math.PI*2);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+
+                    // core dot
+                    ctx.beginPath();
+                    ctx.globalAlpha = 1;
+                    ctx.fillStyle = n.color;
+                    ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+                    ctx.fill();
+
+                    // lines
+                    for(let j=i+1;j<nodes.length;j++){
+                        const m = nodes[j];
+                        const dx = n.x - m.x, dy = n.y - m.y;
+                        const dist = Math.hypot(dx,dy);
+                        const maxD = 180;
+                        if(dist < maxD){
+                            ctx.beginPath();
+                            ctx.moveTo(n.x, n.y);
+                            ctx.lineTo(m.x, m.y);
+                            const alpha = (1 - dist/maxD) * 0.12;
+                            ctx.strokeStyle = 'rgba(26,115,232,' + alpha + ')';
+                            ctx.lineWidth = 1;
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                requestAnimationFrame(draw);
+            }
+
+            // initialize with more nodes for larger area
+            function initNodes(){
+                const area = canvas.width * canvas.height;
+                const base = Math.max(40, Math.min(120, Math.floor(area / 12000)));
+                createNodes(base);
+            }
+
+            initNodes();
+            draw();
+        })();
+    </script>
+</body>
+</html>
