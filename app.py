@@ -86,12 +86,14 @@ def login():
         email = request.form.get('email', '').strip().lower()
         password = request.form.get('password', '')
         
-        # Directly query Firebase for this specific email
-        admin_data = load_admin(email)
+        # CHANGED: Load from Env Var or File
+        admin_creds = load_admin() or {}
 
-        if not admin_data:
+        if not email or not password:
+            error = 'All fields are required.'
+        elif email != admin_creds.get('email'):
             error = 'Invalid credentials.'
-        elif not check_password_hash(admin_data.get('password_hash', ''), password):
+        elif not check_password_hash(admin_creds.get('password_hash', ''), password):
             error = 'Invalid credentials.'
         else:
             session['admin'] = True
@@ -151,23 +153,24 @@ def certifications():
     
 # --- HELPERS ---
 
-def load_admin(email):
-    """
-    Checks Firebase directly for a registered admin with the given email.
-    """
+def load_admin():
+    # UPDATED: First check Render Environment Variable
+    admin_env = os.environ.get('ADMIN_CREDENTIALS')
+    if admin_env:
+        try:
+            return json.loads(admin_env)
+        except:
+            pass
+            
+    # Fallback to local file for development
+    local_file = os.path.join(os.path.dirname(__file__), 'admin_credentials.json')
     try:
-        ref = get_portfolio_ref()
-        # Look for a node named 'admins' in your Firebase
-        admins = ref.child('admins').get()
-        
-        if admins:
-            for admin_id, details in admins.items():
-                if details.get('email') == email:
-                    return details
-    except Exception as e:
-        print(f"Firebase Admin Check Error: {e}")
+        if os.path.exists(local_file):
+            with open(local_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+    except: 
+        return None
     return None
-
 if __name__ == '__main__':
     # Use dynamic port for deployment
     port = int(os.environ.get("PORT", 5000))
