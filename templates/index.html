@@ -8,19 +8,17 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
         :root {
-            /* Material 3 Dark Palette */
             --g-blue: #8ab4f8;
             --g-red: #f28b82;
             --g-yellow: #fdd663;
             --g-green: #81c995;
             --bg-color: #121212;
             --surface: #1e1e1e;
-            --surface-variant: #2d2d2d;
             --text-main: #e8eaed;
             --text-sub: #9aa0a6;
             --border: #3c4043;
-            --shadow: 0 4px 6px rgba(0,0,0,0.3);
-            --radius: 28px;
+            --shadow: 0 1px 2px 0 rgba(0,0,0,0.3), 0 1px 3px 1px rgba(0,0,0,0.15);
+            --radius: 28px; 
         }
 
         * { box-sizing: border-box; outline: none; }
@@ -34,7 +32,6 @@
             overflow-x: hidden;
         }
 
-        /* --- ANIMATIONS --- */
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -49,7 +46,7 @@
         nav {
             position: sticky;
             top: 0;
-            background: rgba(18, 18, 18, 0.8);
+            background: rgba(18, 18, 18, 0.95);
             backdrop-filter: blur(12px);
             z-index: 1000;
             padding: 12px 6%;
@@ -57,12 +54,16 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border);
+            user-select: none;
         }
 
         .nav-brand {
             font-size: 22px;
             font-weight: 500;
-            color: var(--text-main);
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .nav-links { display: flex; align-items: center; gap: 30px; }
@@ -80,7 +81,7 @@
             color: var(--g-blue) !important;
             padding: 8px 20px;
             border-radius: 50px;
-            transition: all 0.3s;
+            transition: all 0.3s !important;
         }
         .admin-pill:hover { background: var(--g-blue) !important; color: #121212 !important; }
 
@@ -89,13 +90,15 @@
             padding: 120px 10% 80px 10%;
             text-align: center;
             animation: fadeInDown 0.8s ease-out;
+            user-select: none;
         }
 
         .hero-name {
             font-size: clamp(40px, 8vw, 72px);
             font-weight: 700;
+            margin: 0;
             letter-spacing: -1.5px;
-            background: linear-gradient(90deg, var(--g-blue), #c2e7ff);
+            background: linear-gradient(90deg, var(--g-blue), #4285f4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -106,21 +109,29 @@
             margin: 15px 0 40px 0;
         }
 
+        .chip-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
         .chip {
             padding: 10px 24px;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 100px;
             font-size: 14px;
+            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 8px;
-            color: var(--text-main);
             transition: 0.3s;
+            color: var(--text-main);
         }
-        .chip:hover { border-color: var(--g-blue); transform: translateY(-2px); }
+        .chip:hover { border-color: var(--g-blue); background: #252525; transform: translateY(-2px); }
 
-        /* --- BENTO GRID & CARDS --- */
+        /* --- BENTO GRID & HIGHLIGHTS --- */
         .main-content {
             max-width: 1300px;
             margin: 0 auto;
@@ -128,6 +139,8 @@
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             gap: 24px;
+            animation: fadeInUp 1s ease-out;
+            user-select: none;
         }
 
         .card {
@@ -135,88 +148,75 @@
             border-radius: var(--radius);
             padding: 40px;
             border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            /* Animation transitions are handled by JS on scroll, 
-               but we add color transitions here */
-            transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
         }
 
-        /* --- HIGHLIGHT LOGIC --- */
-        .card:hover { background: #252525; }
-
-        /* Blue highlight for about/experience */
-        .accent-blue:active, .accent-blue:focus-within {
-            border-color: var(--g-blue) !important;
-            box-shadow: 0 0 20px rgba(138, 180, 248, 0.15);
+        /* --- HIGHLIGHT ON CLICK --- */
+        .card:active, .card:focus-within {
+            background: #252525;
+            box-shadow: var(--shadow);
         }
+        .accent-blue:active, .accent-blue:focus-within { border-color: var(--g-blue); }
+        .accent-red:active, .accent-red:focus-within { border-color: var(--g-red); }
+        .accent-green:active, .accent-green:focus-within { border-color: var(--g-green); }
 
-        /* Red highlight for skills/certs */
-        .accent-red:active, .accent-red:focus-within {
-            border-color: var(--g-red) !important;
-            box-shadow: 0 0 20px rgba(242, 139, 130, 0.15);
-        }
-
-        /* Green highlight for projects */
-        .accent-green:active, .accent-green:focus-within {
-            border-color: var(--g-green) !important;
-            box-shadow: 0 0 20px rgba(129, 201, 149, 0.15);
-        }
+        .accent-blue { border-top: 6px solid var(--g-blue); }
+        .accent-red { border-top: 6px solid var(--g-red); }
+        .accent-green { border-top: 6px solid var(--g-green); }
 
         .col-7 { grid-column: span 7; }
         .col-5 { grid-column: span 5; }
         .col-6 { grid-column: span 6; }
         .col-12 { grid-column: span 12; }
 
-        /* --- SKILLS & PROJECTS --- */
+        h2 {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .skill-tag {
-            background: var(--surface-variant);
+            background: #2d2d2d;
             padding: 8px 18px;
             border-radius: 12px;
             border: 1px solid var(--border);
             font-size: 13px;
-            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
         }
 
         .project-card {
-            background: var(--surface-variant);
+            background: #252525;
             padding: 30px;
             border-radius: 20px;
             border: 1px solid var(--border);
             transition: 0.3s;
         }
-        .project-card:hover { border-color: var(--g-green); }
-        .project-card:active { transform: scale(0.98); border-color: var(--g-green); }
+        .project-card:hover { border-color: var(--g-blue); transform: scale(1.02); }
 
         .proj-link {
             font-size: 18px;
             font-weight: 700;
             color: var(--g-blue);
             text-decoration: none;
+            display: inline-block;
+            margin-bottom: 10px;
         }
-
-        /* --- SOCIAL CARDS --- */
-        .social-card {
-            background: var(--surface-variant);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 24px;
-            border-radius: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-        }
-        .social-card:active { border-color: var(--g-blue); transform: scale(0.95); background: #333; }
-        
-        .social-icon { width: 32px; height: 32px; }
-        .icon-light { filter: invert(1); }
 
         .exp-item {
             margin-bottom: 30px;
             padding-left: 20px;
-            border-left: 2px solid var(--border);
+            border-left: 2px solid #3c4043;
             position: relative;
         }
         .exp-item::before {
@@ -228,8 +228,28 @@
             border-radius: 50%;
         }
 
+        .social-btn-inner {
+            background: #252525; 
+            padding: 24px; 
+            border-radius: 24px; 
+            border: 1px solid var(--border); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 12px; 
+            transition: all 0.3s ease;
+        }
+
         @media (max-width: 1024px) {
             .col-7, .col-5, .col-6, .col-12 { grid-column: span 12; }
+            header { padding: 80px 5% 40px 5%; }
+        }
+
+        .material-symbols-outlined {
+            vertical-align: middle;
+            font-size: 20px;
+            color: #f28b82; 
         }
 
         .pill-red {
@@ -239,7 +259,9 @@
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
+            transition: all 0.3s ease;
         }
+        .pill-red:hover { background: var(--g-red) !important; color: #121212 !important; }
     </style>
 </head>
 <body>
@@ -259,8 +281,8 @@
     <h1 class="hero-name">{{ profile.get('name', 'Your Name') }}</h1>
     <p class="hero-tag">{{ profile.get('profession', 'Profession') }}</p>
     
-    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-        <div class="chip"><span class="material-symbols-outlined" style="color:var(--g-red)">location_on</span>{{ profile.get('city', 'City') }}</div>
+    <div class="chip-container">
+        <div class="chip"><span class="material-symbols-outlined">location_on</span>{{ profile.get('city', 'City') }}, {{ profile.get('country', 'Country') }}</div>
         <div class="chip"><span class="material-symbols-outlined" style="color:var(--g-blue)">mail</span>{{ profile.get('email', 'email@domain.com') }}</div>
         <div class="chip"><span class="material-symbols-outlined" style="color:var(--g-green)">call</span>+91 {{ profile.get('phone', '0123456789') }}</div>
     </div>
@@ -274,16 +296,32 @@
             {{ profile.get('description', 'Description') }}
         </p>
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 30px;">
+    
             <a href="{{ data.get('socials', {}).get('github_link') }}" target="_blank" style="text-decoration: none;">
-                <div class="social-card">
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" alt="GitHub" class="social-icon icon-light">
-                    <div style="font-size: 15px; font-weight: 600;">GitHub</div>
+                <div class="social-btn-inner" onmouseover="this.style.borderColor='var(--g-blue)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='translateY(0)';" >
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" alt="GitHub" style="width: 32px; height: 32px; filter: invert(1);">
+                    <div style="font-size: 15px; font-weight: 600; color: var(--text-main);">GitHub</div>
                 </div>
             </a>
+
             <a href="{{ data.get('socials', {}).get('linkedin_link') }}" target="_blank" style="text-decoration: none;">
-                <div class="social-card">
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg" alt="LinkedIn" class="social-icon" style="filter: brightness(1.5);">
-                    <div style="font-size: 15px; font-weight: 600;">LinkedIn</div>
+                <div class="social-btn-inner" onmouseover="this.style.borderColor='var(--g-blue)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='translateY(0)';" >
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg" alt="LinkedIn" style="width: 32px; height: 32px; filter: brightness(1.5);">
+                    <div style="font-size: 15px; font-weight: 600; color: var(--text-main);">LinkedIn</div>
+                </div>
+            </a>
+
+            <a href="{{ data.get('socials', {}).get('leetcode_link') }}" target="_blank" style="text-decoration: none;">
+                <div class="social-btn-inner" onmouseover="this.style.borderColor='var(--g-blue)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='translateY(0)';" >
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/leetcode.svg" alt="LeetCode" style="width: 32px; height: 32px; filter: brightness(1.5);">
+                    <div style="font-size: 15px; font-weight: 600; color: var(--text-main);">LeetCode</div>
+                </div>
+            </a>
+
+            <a href="{{ data.get('socials', {}).get('hackerrank_link') }}" target="_blank" style="text-decoration: none;">
+                <div class="social-btn-inner" onmouseover="this.style.borderColor='var(--g-blue)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='translateY(0)';" >
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/hackerrank.svg" alt="HackerRank" style="width: 32px; height: 32px; filter: brightness(1.5);">
+                    <div style="font-size: 15px; font-weight: 600; color: var(--text-main);">HackerRank</div>
                 </div>
             </a>
         </div>
@@ -291,28 +329,35 @@
 
     <div class="card col-5 accent-red" tabindex="0">
         <h2><span style="color: var(--g-red)">□</span> SKILLS</h2>
-        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+        <div class="skill-pill-container" style="display: flex; flex-wrap: wrap; gap: 10px;">
             {% for id, skill in data.get('skills', {}).items() %}
-            <div class="skill-tag">
-                <span style="font-weight: 600;">{{ skill.name }}</span>
-                <span style="font-size: 10px; opacity: 0.6; margin-left: 5px;">{{ skill.level }}</span>
+            <div class="skill-tag" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px;">
+                <span style="font-weight: 600; font-size: 14px; color: var(--text-main);">{{ skill.name }}</span>
+                <span style="font-size: 10px; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; background: #3c4043; color: var(--text-sub); font-weight: 700; letter-spacing: 0.5px;">
+                    {{ skill.level }}
+                </span>
             </div>
             {% endfor %}
         </div>
+        <p style="margin-top: 20px; font-size: 13px; color: var(--text-sub);">
+            Focusing on core principles and practical problem-solving through hands-on projects.
+        </p>
     </div>
     
     <div class="card col-12 accent-green" id="projects" tabindex="0">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
             <h2><span style="color: var(--g-green)">△</span> PROJECTS</h2>
-            <span style="color: var(--text-sub);">{{ data.get('projects', {})|length }} ITEMS</span>
+            <span style="font-size: 14px; color: var(--text-sub);">{{ data.get('projects', {})|length }} PROJECTS</span>
         </div>
         <div class="project-grid">
             {% for id, proj in data.get('projects', {}).items() %}
+            {% if not proj.hidden %}
             <div class="project-card">
-                <div style="color: var(--g-green); font-size: 11px; font-weight: 700;">{{ proj.domain }}</div>
+                <div style="color: var(--g-green); font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">{{ proj.domain }}</div>
                 <a href="{{ proj.link }}" target="_blank" class="proj-link">{{ proj.title }} ↗</a>
-                <p style="font-size: 14px; color: var(--text-sub);">{{ proj.desc }}</p>
+                <p style="font-size: 14px; color: var(--text-sub); margin-bottom: 15px;">{{ proj.desc }}</p>
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
@@ -320,21 +365,22 @@
     <div class="card col-6 accent-blue" tabindex="0">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
             <div>
-                <h3 style="font-size: 14px; color: var(--text-sub); margin-bottom: 20px;">EXPERIENCE</h3>
+                <h3 style="font-size: 16px; letter-spacing: 1px; color: var(--text-sub); margin-bottom: 20px;">EXPERIENCE</h3>
                 {% for id, exp in data.get('internships', {}).items() %}
                 <div class="exp-item">
-                    <div style="font-size: 12px; color: var(--g-blue);">{{ exp.duration }}</div>
-                    <div style="font-weight: 500;">{{ exp.role }}</div>
-                    <div style="font-size: 13px; color: var(--text-sub);">{{ exp.company }}</div>
+                    <div style="font-size: 12px; color: var(--g-blue); font-weight: 700;">{{ exp.duration }}</div>
+                    <div style="font-weight: 500; font-size: 16px;">{{ exp.role }}</div>
+                    <div style="font-size: 14px; color: var(--text-sub);">{{ exp.company }}</div>
                 </div>
                 {% endfor %}
             </div>
             <div>
-                <h3 style="font-size: 14px; color: var(--text-sub); margin-bottom: 20px;">EDUCATION</h3>
+                <h3 style="font-size: 16px; letter-spacing: 1px; color: var(--text-sub); margin-bottom: 20px;">EDUCATION</h3>
                 {% for id, edu in data.get('education', {}).items() %}
                 <div class="exp-item">
                     <div style="font-size: 12px; color: var(--text-sub);">{{ edu.year }}</div>
-                    <div style="font-weight: 500;">{{ edu.title }}</div>
+                    <div style="font-weight: 500; font-size: 16px;">{{ edu.title }}</div>
+                    <div style="font-size: 14px;">{{ edu.school }}</div>
                 </div>
                 {% endfor %}
             </div>
@@ -343,13 +389,20 @@
 
     <div class="card col-6 accent-red" id="certifications" tabindex="0">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2><span style="color: var(--g-red)">□</span> CERTIFICATIONS</h2>
-            <a href="#" class="pill-red" style="font-size: 11px;">View All</a>
+            <h2><span style="color: var(--g-red)">□</span> Certifications</h2>
+            <a href="{{ url_for('certifications') }}" class="pill-red" style="font-size: 11px; padding: 5px 12px;">
+                View All ↗
+            </a>
         </div>
+
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
             {% for id, cert in data.get('certifications', {}).items() %}
-            <div style="background: var(--surface-variant); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 13px;">
-                {{ cert.short_title }}
+            <div style="background: #252525; border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; transition: 0.2s;" 
+                 onmouseover="this.style.borderColor='var(--g-red)';" 
+                 onmouseout="this.style.borderColor='var(--border)';">
+                <div style="font-size: 13px; font-weight: 600; color: var(--text-main); white-space: nowrap;">
+                    {{ cert.short_title }}
+                </div>
             </div>
             {% endfor %}
         </div>
@@ -365,12 +418,11 @@
         <span style="color: var(--g-green)">●</span>
     </div>
     <div style="font-size: 13px; color: var(--text-sub);">
-        &copy; 2026 {{ profile.get('name', 'Developer') }} • Material Dark Theme
+        &copy; 2026 {{ profile.get('name', 'Developer') }} • Crafted with Material 3 Principles
     </div>
 </footer>
 
 <script>
-    // Reveal Observer - Handles the entrance animation
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -382,8 +434,8 @@
 
     document.querySelectorAll('.card').forEach(card => {
         card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out, border-color 0.3s ease, box-shadow 0.3s ease';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out, border-color 0.3s ease';
         observer.observe(card);
     });
 </script>
