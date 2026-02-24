@@ -19,78 +19,136 @@
             --border: #3c4043;
             --radius: 28px; 
             --outline-width: 2px;
+            /* Interaction Variables */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --glow: 0 8px 32px rgba(129, 201, 149, 0.15);
         }
 
         * { box-sizing: border-box; outline: none; }
         
+        html { scroll-behavior: smooth; }
+
         body {
             margin: 0;
             font-family: 'Google Sans', 'Roboto', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-white);
             line-height: 1.5;
+            animation: fadeInPage 0.8s ease-out;
         }
 
-        /* Navigation */
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- INTERACTIVE NAVIGATION --- */
         nav {
             position: sticky;
             top: 0;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             z-index: 1000;
-            padding: 12px 6%;
+            padding: 16px 6%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: var(--outline-width) solid var(--border);
+            transition: var(--transition);
         }
 
-        .nav-brand { font-size: 22px; font-weight: 500; color: #ffffff; }
-        .nav-links { display: flex; align-items: center; gap: 30px; }
-        .nav-links a { text-decoration: none; color: var(--text-sub); font-size: 14px; }
-        
+        .nav-brand { 
+            font-size: 22px; 
+            font-weight: 700; 
+            color: #ffffff; 
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .nav-brand:hover { color: var(--g-green-variant); }
+
+        .nav-links { display: flex; align-items: center; gap: 35px; }
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--text-sub); 
+            font-size: 14px; 
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0; height: 2px;
+            bottom: -4px; left: 0;
+            background-color: var(--g-green-variant);
+            transition: var(--transition);
+        }
+        .nav-links a:hover::after { width: 100%; }
+
         .admin-pill {
-            background: #1a1a1a;
-            color: #ffffff !important; /* Unified white */
-            padding: 8px 20px;
+            background: transparent;
+            color: #ffffff !important;
+            padding: 8px 24px;
             border-radius: 50px;
-            border: var(--outline-width) solid var(--g-green-variant);
+            border: var(--outline-width) solid var(--border);
+            transition: var(--transition);
+        }
+        .admin-pill:hover { 
+            border-color: var(--g-green-variant);
+            background: rgba(129, 201, 149, 0.1);
+            transform: scale(1.05);
         }
 
-        /* Hero */
-        header { padding: 120px 10% 80px 10%; text-align: center; }
-        .hero-name { font-size: clamp(40px, 8vw, 72px); font-weight: 700; margin: 0; color: #ffffff; }
-        .hero-tag { font-size: 22px; color: var(--text-sub); margin: 15px 0 40px 0; }
+        /* --- HERO --- */
+        header { padding: 140px 10% 100px 10%; text-align: center; }
+        .hero-name { font-size: clamp(40px, 8vw, 80px); font-weight: 700; margin: 0; color: #ffffff; letter-spacing: -2px; }
+        .hero-tag { font-size: 24px; color: var(--text-sub); margin: 20px 0 50px 0; }
 
-        .chip-container { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
         .chip {
-            padding: 10px 24px;
+            padding: 12px 28px;
             background: var(--surface-variant);
             border: var(--outline-width) solid var(--border);
             border-radius: 100px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             color: #ffffff;
+            transition: var(--transition);
+            cursor: default;
+        }
+        .chip:hover { 
+            border-color: var(--text-sub); 
+            transform: translateY(-3px);
+            background: #252525;
         }
 
-        /* Grid */
+        /* --- INTERACTIVE BENTO GRID --- */
         .main-content {
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 24px 100px 24px;
+            padding: 0 24px 120px 24px;
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 24px;
+            gap: 28px;
         }
 
         .card {
             background: var(--surface);
             border-radius: var(--radius);
-            padding: 40px;
+            padding: 45px;
             border: var(--outline-width) solid var(--border);
             border-top: 6px solid var(--g-green-variant);
-            color: #ffffff; /* Global white text for cards */
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: #555;
+            box-shadow: var(--glow);
         }
 
         .col-7 { grid-column: span 7; }
@@ -98,50 +156,102 @@
         .col-6 { grid-column: span 6; }
         .col-12 { grid-column: span 12; }
 
-        /* Logos */
-        .logo-box { background: #ffffff; padding: 8px; border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; }
-        .logo-img { width: 28px; height: 28px; }
-
+        /* SOCIAL BUTTONS */
         .social-btn-inner {
             background: var(--surface-variant); 
-            padding: 24px; 
+            padding: 28px; 
             border-radius: 24px; 
             border: var(--outline-width) solid var(--border); 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            gap: 12px;
+            gap: 15px;
+            transition: var(--transition);
         }
-
-        .skill-tag {
+        .social-btn-inner:hover {
             background: #252525;
-            padding: 8px 18px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            color: #ffffff;
+            border-color: #fff;
+            transform: scale(1.03);
         }
 
+        .logo-box { 
+            background: #ffffff; 
+            padding: 10px; 
+            border-radius: 50%; 
+            width: 52px; height: 52px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            transition: var(--transition);
+        }
+        .social-btn-inner:hover .logo-box { transform: rotate(10deg); }
+
+        /* SKILLS */
+        .skill-tag {
+            background: #1a1a1a;
+            padding: 10px 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .skill-tag:hover {
+            border-color: var(--g-red);
+            background: rgba(242, 139, 130, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* PROJECTS */
         .project-card {
             background: var(--surface-variant);
-            padding: 30px;
-            border-radius: 20px;
+            padding: 35px;
+            border-radius: 24px;
             border: var(--outline-width) solid var(--border);
-            margin-bottom: 20px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .project-card:hover {
+            border-color: var(--g-green-variant);
+            background: #252525;
+            transform: translateX(5px);
         }
 
+        /* EXPERIENCE */
         .exp-item {
-            margin-bottom: 30px;
-            padding-left: 20px;
+            margin-bottom: 35px;
+            padding-left: 25px;
             border-left: var(--outline-width) solid var(--border);
+            transition: var(--transition);
+        }
+        .exp-item:hover {
+            border-left-color: var(--g-blue);
+            padding-left: 30px;
         }
 
-        @media (max-width: 1024px) { .col-7, .col-5, .col-6, .col-12 { grid-column: span 12; } }
+        /* BUTTONS */
+        .view-all-btn {
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            padding: 8px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 12px;
+            transition: var(--transition);
+        }
+        .view-all-btn:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        @media (max-width: 1024px) {
+            .col-7, .col-5, .col-6, .col-12 { grid-column: span 12; }
+        }
     </style>
 </head>
 <body>
 
 <nav>
-    <div class="nav-brand">PORTFOLIO</div>
+    <div class="nav-brand" onclick="window.scrollTo(0,0)">PORTFOLIO</div>
     <div class="nav-links">
         <a href="#about">ABOUT</a>
         <a href="#projects">PROJECTS</a>
@@ -156,19 +266,28 @@
     <p class="hero-tag">{{ profile.get('profession', 'Software Engineer') }}</p>
     
     <div class="chip-container">
-        <div class="chip"><span class="material-symbols-outlined" style="color:var(--g-red)">location_on</span>{{ profile.get('city', 'City') }}, {{ profile.get('country', 'Country') }}</div>
-        <div class="chip"><span class="material-symbols-outlined" style="color:var(--g-blue)">mail</span>{{ profile.get('email', 'Email') }}</div>
-        <div class="chip"><span class="material-symbols-outlined" style="color:var(--g-green-variant)">call</span>+91 {{ profile.get('phone', 'Phone') }}</div>
+        <div class="chip">
+            <span class="material-symbols-outlined" style="color:var(--g-red)">location_on</span>
+            {{ profile.get('city', 'City') }}, {{ profile.get('country', 'Country') }}
+        </div>
+        <div class="chip">
+            <span class="material-symbols-outlined" style="color:var(--g-blue)">mail</span>
+            {{ profile.get('email', 'Email') }}
+        </div>
+        <div class="chip">
+            <span class="material-symbols-outlined" style="color:var(--g-green-variant)">call</span>
+            +91 {{ profile.get('phone', 'Phone') }}
+        </div>
     </div>
 </header>
 
 <div class="main-content">
     
     <div class="card col-7" id="about">
-        <h2 style="color: #ffffff;"><span style="color: var(--g-blue)">○</span> ABOUT</h2>
-        <p style="font-size: 18px; color: #ffffff;">{{ profile.get('description', 'About section...') }}</p>
+        <h2><span style="color: var(--g-blue)">○</span> ABOUT</h2>
+        <p style="font-size: 19px; color: #ffffff; opacity: 0.95;">{{ profile.get('description', 'About...') }}</p>
         
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 30px;">
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 40px;">
             {% for platform in ['github', 'linkedin', 'leetcode', 'hackerrank'] %}
             {% set link = data.get('socials', {}).get(platform + '_link') %}
             {% if link %}
@@ -184,26 +303,26 @@
     </div>
 
     <div class="card col-5">
-        <h2 style="color: #ffffff;"><span style="color: var(--g-red)">□</span> SKILLS</h2>
-        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+        <h2><span style="color: var(--g-red)">□</span> SKILLS</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px;">
             {% for id, skill in data.get('skills', {}).items() %}
             <div class="skill-tag">
-                <span style="font-weight: 600; color: #ffffff;">{{ skill.name }}</span>
-                <span style="font-size: 10px; color: #ffffff; opacity: 0.6; margin-left: 5px;">{{ skill.level }}</span>
+                <span style="font-weight: 600;">{{ skill.name }}</span>
+                <span style="font-size: 11px; color: var(--g-red); margin-left: 8px;">{{ skill.level }}</span>
             </div>
             {% endfor %}
         </div>
     </div>
     
     <div class="card col-12" id="projects">
-        <h2 style="color: #ffffff;"><span style="color: var(--g-green-variant)">△</span> PROJECTS</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+        <h2 style="margin-bottom: 35px;"><span style="color: var(--g-green-variant)">△</span> PROJECTS</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 28px;">
             {% for id, proj in data.get('projects', {}).items() %}
             {% if not proj.hidden %}
             <div class="project-card">
-                <div style="color: var(--g-green-variant); font-size: 11px; font-weight: 700; text-transform: uppercase;">{{ proj.domain }}</div>
-                <a href="{{ proj.link }}" target="_blank" style="color: #ffffff; text-decoration: none; font-size: 18px; font-weight: 700;">{{ proj.title }} ↗</a>
-                <p style="font-size: 14px; color: #ffffff; opacity: 0.9;">{{ proj.desc }}</p>
+                <div style="color: var(--g-green-variant); font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 12px;">{{ proj.domain }}</div>
+                <a href="{{ proj.link }}" target="_blank" style="color: #ffffff; text-decoration: none; font-size: 20px; font-weight: 700; display: block; margin-bottom: 10px;">{{ proj.title }} ↗</a>
+                <p style="font-size: 15px; color: #bbb; margin: 0;">{{ proj.desc }}</p>
             </div>
             {% endif %}
             {% endfor %}
@@ -213,22 +332,22 @@
     <div class="card col-6">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
             <div>
-                <h3 style="color: #ffffff; font-size: 16px; margin-bottom: 20px;">EXPERIENCE</h3>
+                <h3 style="margin-bottom: 30px; font-size: 18px;">EXPERIENCE</h3>
                 {% for id, exp in data.get('internships', {}).items() %}
                 <div class="exp-item">
-                    <div style="font-size: 12px; color: #ffffff; opacity: 0.7;">{{ exp.duration }}</div>
-                    <div style="font-weight: 500; font-size: 16px; color: #ffffff;">{{ exp.role }}</div>
-                    <div style="font-size: 14px; color: #ffffff; opacity: 0.8;">{{ exp.company }}</div>
+                    <div style="font-size: 12px; color: var(--g-blue); font-weight: 700; margin-bottom: 4px;">{{ exp.duration }}</div>
+                    <div style="font-weight: 600; font-size: 16px;">{{ exp.role }}</div>
+                    <div style="font-size: 14px; color: #9aa0a6;">{{ exp.company }}</div>
                 </div>
                 {% endfor %}
             </div>
             <div>
-                <h3 style="color: #ffffff; font-size: 16px; margin-bottom: 20px;">EDUCATION</h3>
+                <h3 style="margin-bottom: 30px; font-size: 18px;">EDUCATION</h3>
                 {% for id, edu in data.get('education', {}).items() %}
                 <div class="exp-item">
-                    <div style="font-size: 12px; color: #ffffff; opacity: 0.7;">{{ edu.year }}</div>
-                    <div style="font-weight: 500; font-size: 16px; color: #ffffff;">{{ edu.title }}</div>
-                    <div style="font-size: 14px; color: #ffffff;">{{ edu.school }}</div>
+                    <div style="font-size: 12px; color: #9aa0a6; margin-bottom: 4px;">{{ edu.year }}</div>
+                    <div style="font-weight: 600; font-size: 16px;">{{ edu.title }}</div>
+                    <div style="font-size: 14px; color: #9aa0a6;">{{ edu.school }}</div>
                 </div>
                 {% endfor %}
             </div>
@@ -236,14 +355,14 @@
     </div>
 
     <div class="card col-6" id="certifications">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2 style="color: #ffffff;"><span style="color: var(--g-red)">□</span> CERTIFICATIONS</h2>
-            <a href="{{ url_for('certifications') }}" style="color: #ffffff; border: 1px solid #ffffff; padding: 5px 12px; border-radius: 50px; font-size: 11px; text-decoration: none;">View All</a>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h2><span style="color: var(--g-red)">□</span> CERTIFICATIONS</h2>
+            <a href="{{ url_for('certifications') }}" class="view-all-btn">View All ↗</a>
         </div>
-        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
             {% for id, cert in data.get('certifications', {}).items() %}
-            <div style="background: var(--surface-variant); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px;">
-                <div style="font-size: 13px; font-weight: 600; color: #ffffff;">{{ cert.short_title }}</div>
+            <div style="background: var(--surface-variant); border: 1px solid var(--border); border-radius: 12px; padding: 12px 20px; transition: var(--transition); cursor: pointer;" onmouseover="this.style.borderColor='#fff'" onmouseout="this.style.borderColor='var(--border)'">
+                <div style="font-size: 14px; font-weight: 600;">{{ cert.short_title }}</div>
             </div>
             {% endfor %}
         </div>
@@ -251,8 +370,8 @@
 
 </div>
 
-<footer style="padding: 60px; text-align: center; border-top: 1px solid var(--border); color: #ffffff; opacity: 0.6;">
-    &copy; 2026 {{ profile.get('name', 'Developer') }}
+<footer style="padding: 80px 0; border-top: 1px solid var(--border); text-align: center; opacity: 0.5;">
+    &copy; 2026 {{ profile.get('name', 'Developer') }} — Portfolio
 </footer>
 
 </body>
