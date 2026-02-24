@@ -3,202 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Command Center | AATHISUDHAN A.</title>
+    <title>Admin Command Center</title>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --g-blue: #1a73e8; --g-red: #ea4335; --bg: #f8f9fa; --card: #ffffff; --text: #202124; --border: #dadce0; }
-        body { background: var(--bg); font-family: 'Google Sans', sans-serif; margin: 0; display: flex; color: var(--text); }
+        :root { 
+            --g-blue: #1a73e8; --g-red: #ea4335; --g-green: #1e8e3e; --g-gray: #5f6368;
+            --bg: #f8f9fa; --card: #ffffff; --text: #202124; --border: #dadce0; 
+        }
         
-        .sidebar { width: 280px; background: #fff; height: 100vh; border-right: 1px solid var(--border); padding: 30px 20px; position: fixed; box-sizing: border-box; }
-        .main-content { margin-left: 280px; padding: 40px; width: calc(100% - 280px); box-sizing: border-box; }
+        body { background: var(--bg); font-family: 'Google Sans', sans-serif; margin: 0; color: var(--text); -webkit-font-smoothing: antialiased; }
+
+        /* Header Navigation */
+        .nav-bar { background: #fff; padding: 12px 24px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .logo { font-weight: 700; color: var(--g-blue); font-size: 18px; letter-spacing: -0.5px; }
+        .status-pill { font-size: 11px; color: var(--g-green); background: #e6f4ea; padding: 4px 12px; border-radius: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+
+        /* Content Grid */
+        .container { max-width: 1300px; margin: 0 auto; padding: 24px; box-sizing: border-box; }
+        .bento-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 24px; }
+        @media (max-width: 480px) { .bento-grid { grid-template-columns: 1fr; gap: 16px; } .container { padding: 12px; } }
+
+        /* Material Cards */
+        .card { background: var(--card); border-radius: 12px; padding: 24px; border: 1px solid var(--border); transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; }
+        .card:hover { box-shadow: 0 4px 12px rgba(60,64,67,0.15); border-color: transparent; }
         
-        .bento-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 24px; }
-        .card { background: var(--card); border-radius: 16px; padding: 24px; border: 1px solid var(--border); transition: 0.2s; position: relative; }
-        .card:hover { box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        
-        h3 { margin: 0 0 15px 0; color: var(--g-blue); font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        input, textarea, select { width: 100%; padding: 12px; border: 1px solid #dfe1e5; border-radius: 8px; margin-bottom: 10px; font-family: inherit; font-size: 14px; box-sizing: border-box; }
-        textarea { resize: vertical; min-height: 80px; }
-        
-        .btn-add { background: var(--g-blue); color: white; border: none; padding: 12px; border-radius: 24px; cursor: pointer; font-weight: 500; width: 100%; transition: background 0.2s; }
-        .btn-add:hover { background: #1765cc; }
-        
-        .list-container { margin-top: 20px; max-height: 200px; overflow-y: auto; border-top: 1px solid #f1f3f4; padding-top: 10px; }
-        .live-item { background: #f8f9fa; padding: 10px 15px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; border: 1px solid #eee; }
-        .del-btn { color: var(--g-red); cursor: pointer; border: none; background: none; font-size: 18px; padding: 0 5px; line-height: 1; }
-        .del-btn:hover { color: #b31412; }
-        .empty-msg { font-size: 12px; color: #9aa0a6; text-align: center; font-style: italic; }
+        h3 { margin: 0 0 18px 0; color: var(--g-blue); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; display: flex; align-items: center; gap: 8px; }
+
+        /* Forms */
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        input, textarea, select { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; font-family: inherit; font-size: 14px; box-sizing: border-box; transition: all 0.2s; }
+        input:focus { border-color: var(--g-blue); box-shadow: 0 0 0 2px rgba(26,115,232,0.1); outline: none; }
+        textarea { resize: none; min-height: 80px; }
+        label { font-size: 12px; color: var(--g-gray); margin-bottom: 4px; display: block; font-weight: 500; }
+
+        /* Buttons */
+        .action-group { display: flex; gap: 8px; margin-top: 4px; }
+        .btn { border: none; padding: 10px 20px; border-radius: 20px; font-weight: 500; cursor: pointer; font-size: 14px; transition: background 0.2s; }
+        .btn-primary { background: var(--g-blue); color: #fff; flex: 2; }
+        .btn-primary:hover { background: #1765cc; }
+        .btn-outline { background: #f1f3f4; color: var(--g-gray); flex: 1; display: none; }
+        .btn-outline:hover { background: #e8eaed; }
+
+        /* List Items */
+        .preview-list { margin-top: 20px; border-top: 1px solid #f1f3f4; padding-top: 12px; max-height: 220px; overflow-y: auto; }
+        .list-item { background: #fff; padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f1f3f4; font-size: 13px; }
+        .list-item:hover { background: #f8f9fa; }
+        .item-text { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70%; }
+        .item-ctrl { display: flex; gap: 4px; }
+        .ctrl-btn { border: none; background: none; padding: 6px; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .ctrl-btn:hover { background: rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
 
-<div class="sidebar">
-    <h2 style="color:var(--g-blue); margin-bottom: 5px;">AATHISUDHAN</h2>
-    <p style="color:#5f6368; font-size:12px; margin-top: 0;">System Architect Admin</p>
-    <div style="margin-top: 40px;">
-        <p style="font-size: 14px; color: var(--g-blue); font-weight: 500;">✓ Database Connected</p>
-        <p style="font-size: 14px; color: #5f6368;">✓ Live Preview Mode</p>
-    </div>
+<div class="nav-bar">
+    <div class="logo">AATHISUDHAN <span style="font-weight:400; color:var(--g-gray)">/ Admin</span></div>
+    <div class="status-pill">● SYSTEM LIVE</div>
 </div>
 
-<div class="main-content">
+<div class="container">
     <div class="bento-grid">
 
-        <div class="card">
-            <h3>👤 Profile (Single)</h3>
-            <input type="text" id="profile-name" placeholder="Full Name">
-            <input type="date" id="profile-dob" placeholder="Date of Birth">
-            <input type="text" id="profile-prof" placeholder="Profession">
-            <input type="text" id="profile-address" placeholder="Address">
-            <input type="tel" id="profile-phone" placeholder="Phone Number">
-            <input type="email" id="profile-email" placeholder="Email">
-            <button class="btn-add" onclick="pushData('profile', {name:'profile-name', dob:'profile-dob', profession:'profile-prof', address:'profile-address', phone:'profile-phone', email:'profile-email'})">Save Profile</button>
-            <div class="list-container" id="profile-preview">
-                {% if data.get('profile') %}
-                <div class="live-item"><span>{{data.get('profile').get('name')}}</span></div>
-                {% else %}
-                <div class="empty-msg">No profile saved yet.</div>
-                {% endif %}
+        <div class="card" id="card-profile">
+            <h3>Profile Details</h3>
+            <div><label>Full Name</label><input type="text" id="p-name" placeholder="Full Name" value="{{data.get('profile', {}).get('name', '')}}"></div>
+            <div><label>Profession</label><input type="text" id="p-prof" placeholder="Current Profession" value="{{data.get('profile', {}).get('profession', '')}}"></div>
+            <div><label>Bio</label><textarea id="p-desc" placeholder="Bio">{{data.get('profile', {}).get('description', '')}}</textarea></div>
+            <div class="form-row">
+                <div><label>Date of Birth</label><input type="date" id="p-dob" value="{{data.get('profile', {}).get('dob', '')}}"></div>
+                <div><label>Phone Number</label><input type="tel" id="p-phone" placeholder="Phone" value="{{data.get('profile', {}).get('phone', '')}}"></div>
+            </div>
+            <div><label>Email</label><input type="email" id="p-email" placeholder="Email Address" value="{{data.get('profile', {}).get('email', '')}}"></div>
+            <div class="form-row">
+                <div><label>City</label><input type="text" id="p-city" placeholder="City" value="{{data.get('profile', {}).get('city', '')}}"></div>
+                <div><label>State</label><input type="text" id="p-state" placeholder="State" value="{{data.get('profile', {}).get('state', '')}}"></div>
+            </div>
+            <div><label>Country</label><input type="text" id="p-country" placeholder="Country" value="{{data.get('profile', {}).get('country', '')}}"></div>
+            <button class="btn btn-primary" onclick="pushData('profile', {name:'p-name', profession:'p-prof', description:'p-desc', dob:'p-dob', phone:'p-phone', email:'p-email', city:'p-city', state:'p-state', country:'p-country'})">Save Profile</button>
+        </div>
+
+        <div class="card" id="card-socials">
+            <h3>📊 Social Platforms</h3>
+            <label>LinkedIn Link</label><input type="text" id="s-li" placeholder="https://..." value="{{data.get('socials', {}).get('linkedin_link', '')}}">
+            <label>GitHub Link</label><input type="text" id="s-gh" placeholder="https://..." value="{{data.get('socials', {}).get('github_link', '')}}">
+            <label>LeetCode Link</label><input type="text" id="s-lc" placeholder="https://..." value="{{data.get('socials', {}).get('leetcode_link', '')}}">
+            <label>HackerRank Link</label><input type="text" id="s-hr" placeholder="https://..." value="{{data.get('socials', {}).get('hackerrank_link', '')}}">
+            <div class="action-group">
+                <button class="btn btn-primary" style="flex: none; width: auto; padding: 10px 30px;" onclick="pushData('socials', {linkedin_link:'s-li', github_link:'s-gh', leetcode_link:'s-lc', hackerrank_link:'s-hr'})">Update Links</button>
             </div>
         </div>
 
-        <div class="card">
-            <h3>📊 Coding & Platforms (Single editable entries)</h3>
-            <p style="font-size:13px; color:#5f6368; margin:6px 0 10px 0;">LeetCode</p>
-            <input type="text" id="lc-username" placeholder="LeetCode Username">
-            <input type="text" id="lc-link" placeholder="LeetCode Link">
-            <p style="font-size:13px; color:#5f6368; margin:6px 0 10px 0;">HackerRank</p>
-            <input type="text" id="hr-username" placeholder="HackerRank Username">
-            <input type="text" id="hr-link" placeholder="HackerRank Link">
-            <p style="font-size:13px; color:#5f6368; margin:6px 0 10px 0;">GitHub</p>
-            <input type="text" id="gh-username" placeholder="GitHub Username">
-            <input type="text" id="gh-link" placeholder="GitHub Link">
-            <button class="btn-add" onclick="pushData('socials', {leetcode_user:'lc-username', leetcode_link:'lc-link', hackerrank_user:'hr-username', hackerrank_link:'hr-link', github_user:'gh-username', github_link:'gh-link'})">Save Profiles</button>
-            <div class="list-container" id="socials-preview">
-                {% if data.get('socials') %}
-                <div class="live-item"><span>Profiles saved</span></div>
-                {% else %}
-                <div class="empty-msg">No social profiles saved yet.</div>
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="card">
-            <h3>🛠️ Technical Skills</h3>
-            <input type="text" id="skill-name" placeholder="Skill (e.g. Python)">
-            
-            <select id="skill-level">
+        <div class="card" id="card-skills">
+            <h3>Technical Skills</h3>
+            <input type="text" id="sk-name" placeholder="Skill (e.g. React.js)">
+            <select id="sk-level">
                 <option value="Beginner">Beginner</option>
-                <option value="Intermediate" selected>Intermediate</option>
+                <option value="Intermediate">Intermediate</option>
                 <option value="Advanced">Advanced</option>
                 <option value="Expert">Expert</option>
             </select>
-
-            <button class="btn-add" id="skill-action" onclick="pushData('skills', {name: 'skill-name', level: 'skill-level'})">Add Skill</button>
-            
-            <div class="list-container">
+            <div class="action-group">
+                <button class="btn btn-primary" id="sk-btn" onclick="pushData('skills', {name:'sk-name', level:'sk-level'})">Add Skill</button>
+                <button class="btn btn-outline" id="sk-cancel" onclick="cancelEdit('skills')">Cancel</button>
+            </div>
+            <div class="preview-list">
                 {% for id, item in data.get('skills', {}).items() %}
-                <div class="live-item">
-                    <span><strong>{{item.name}}</strong> — {{item.level}}</span>
-                    <div>
-                        <button class="del-btn" onclick="startEdit('skills','{{id}}')" >✎</button>
-                        <button class="del-btn" onclick="deleteData('skills','{{id}}')" >×</button>
+                <div class="list-item">
+                    <span class="item-text">{{item.name}} — <small style="color:var(--g-gray)">{{item.level}}</small></span>
+                    <div class="item-ctrl">
+                        <button class="ctrl-btn" style="color:var(--g-blue)" onclick="startEdit('skills','{{id}}')">✎</button>
+                        <button class="ctrl-btn" style="color:var(--g-red)" onclick="deleteData('skills','{{id}}')">×</button>
                     </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
 
-        <div class="card">
-            <h3>🎓 Education (Multiple)</h3>
-            <input type="text" id="edu-school" placeholder="School/College Name (required)">
-            <input type="text" id="edu-title" placeholder="Education Title (e.g. B.Tech AI&DS, SSLC, HSC) (required)">
-            <input type="number" id="edu-start" placeholder="Start Year (optional)">
-            <input type="number" id="edu-end" placeholder="End Year (optional)">
-            <button class="btn-add" id="edu-action" onclick="pushData('education', {school:'edu-school', title:'edu-title', start_year:'edu-start', end_year:'edu-end'})">Add Education</button>
-            <div class="list-container" id="education-list">
+        <div class="card" id="card-education">
+            <h3>Education</h3>
+            <input type="text" id="edu-school" placeholder="School/University Name">
+            <input type="text" id="edu-title" placeholder="Degree (e.g. B.Tech AI & DS)">
+            <input type="text" id="edu-year" placeholder="Year / Duration">
+            <div class="action-group">
+                <button class="btn btn-primary" id="edu-btn" onclick="pushData('education', {school:'edu-school', title:'edu-title', year:'edu-year'})">Add Education</button>
+                <button class="btn btn-outline" id="edu-cancel" onclick="cancelEdit('education')">Cancel</button>
+            </div>
+            <div class="preview-list">
                 {% for id, item in data.get('education', {}).items() %}
-                <div class="live-item"><span>{{item.title}} @ {{item.school}}</span>
-                    <div>
-                        <button class="del-btn" onclick="startEdit('education','{{id}}')">✎</button>
-                        <button class="del-btn" onclick="deleteData('education','{{id}}')">×</button>
+                <div class="list-item">
+                    <span class="item-text">{{item.title}}</span>
+                    <div class="item-ctrl">
+                        <button class="ctrl-btn" style="color:var(--g-blue)" onclick="startEdit('education','{{id}}')">✎</button>
+                        <button class="ctrl-btn" style="color:var(--g-red)" onclick="deleteData('education','{{id}}')">×</button>
                     </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
 
-        <div class="card">
-            <h3>🚀 Projects (Multiple)</h3>
-            <input type="text" id="proj-title" placeholder="Project Title">
-            <input type="text" id="proj-team" placeholder="Team Members (comma-separated)">
-            <input type="text" id="proj-domain" placeholder="Domain">
-            <textarea id="proj-desc" placeholder="Project Description"></textarea>
-            <input type="date" id="proj-date" placeholder="Project Date">
-            <input type="text" id="proj-link" placeholder="Project URL (GitHub/Live)">
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><input type="checkbox" id="proj-hide"> Hide (true/false)</label>
-            <button class="btn-add" id="proj-action" onclick="pushData('projects', {title:'proj-title', team:'proj-team', domain:'proj-domain', desc:'proj-desc', date:'proj-date', link:'proj-link', hidden:'proj-hide'})">Add Project</button>
-            <div class="list-container" id="projects-list">
+        <div class="card" id="card-projects">
+            <h3>Projects</h3>
+            <input type="text" id="pj-title" placeholder="Project Title">
+            <input type="text" id="pj-dom" placeholder="Domain (e.g. Machine Learning)">
+            <input type="text" id="pj-link" placeholder="Live/GitHub URL">
+            
+            <label style="font-size: 11px; color: var(--g-gray); margin-bottom: 8px;">DESCRIPTION POINTS (MAX 3)</label>
+            <input type="text" id="pj-p1" style="border-left: 3px solid var(--g-green)" placeholder="Point 1: Key feature or tech used">
+            <input type="text" id="pj-p2" style="border-left: 3px solid var(--g-green)" placeholder="Point 2: Development detail">
+            <input type="text" id="pj-p3" style="border-left: 3px solid var(--g-green)" placeholder="Point 3: Impact or Result">
+        
+            <div class="action-group">
+                <button class="btn btn-primary" onclick="pushData('projects', {title:'pj-title', domain:'pj-dom', link:'pj-link', p1:'pj-p1', p2:'pj-p2', p3:'pj-p3'})">Save Project</button>
+                <button class="btn btn-outline" onclick="cancelEdit('projects')">Cancel</button>
+            </div>
+        
+            <div class="preview-list">
                 {% for id, item in data.get('projects', {}).items() %}
-                <div class="live-item"><span>{{item.title}} {% if item.hidden %}(Hidden){% endif %}</span>
-                    <div>
-                        <button class="del-btn" onclick="startEdit('projects','{{id}}')">✎</button>
-                        <button class="del-btn" onclick="deleteData('projects','{{id}}')">×</button>
+                <div class="list-item">
+                    <span class="item-text"><b>{{item.title}}</b></span>
+                    <div class="item-ctrl">
+                        <button class="ctrl-btn" style="color:var(--g-blue)" onclick="startEdit('projects','{{id}}')">✎</button>
+                        <button class="ctrl-btn" style="color:var(--g-red)" onclick="deleteData('projects','{{id}}')">×</button>
                     </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
 
-        <div class="card">
-            <h3>📜 Certifications (Multiple)</h3>
-            <input type="text" id="cert-title" placeholder="Certification Title (required)">
-            <input type="text" id="cert-org" placeholder="Issuing Organization (optional)">
-            <input type="date" id="cert-start" placeholder="Start Date (optional)">
-            <input type="date" id="cert-end" placeholder="End Date (optional)">
-            <input type="text" id="cert-domain" placeholder="Domain (optional)">
-            <input type="text" id="cert-id" placeholder="Credential ID (optional)">
-            <input type="text" id="cert-link" placeholder="Credential Link (optional)">
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><input type="checkbox" id="cert-hide"> Hide (true/false)</label>
-            <button class="btn-add" id="cert-action" onclick="pushData('certifications', {title:'cert-title', issuer:'cert-org', start:'cert-start', end:'cert-end', domain:'cert-domain', credid:'cert-id', link:'cert-link', hidden:'cert-hide'})">Add Cert</button>
-            <div class="list-container" id="certs-list">
+        <div class="card" id="card-certifications">
+            <h3>Certifications</h3>
+            <input type="text" id="c-title" placeholder="Certification Full Title">
+            <input type="text" id="c-short" placeholder="Short Identifier (e.g. OCI-GenAI)">
+            <input type="text" id="c-iss" placeholder="Issuing Organization">
+            <input type="text" id="c-dom" placeholder="Domain">
+            <input type="text" id="c-link" placeholder="Credential URL">
+            <div class="action-group">
+                <button class="btn btn-primary" id="c-btn" onclick="pushData('certifications', {title:'c-title', short_title:'c-short', issuer:'c-iss', domain:'c-dom', link:'c-link'})">Add Cert</button>
+                <button class="btn btn-outline" id="c-cancel" onclick="cancelEdit('certifications')">Cancel</button>
+            </div>
+            <div class="preview-list">
                 {% for id, item in data.get('certifications', {}).items() %}
-                <div class="live-item"><span>{{item.title}} {% if item.hidden %}(Hidden){% endif %}</span>
-                    <div>
-                        <button class="del-btn" onclick="startEdit('certifications','{{id}}')">✎</button>
-                        <button class="del-btn" onclick="deleteData('certifications','{{id}}')">×</button>
+                <div class="list-item">
+                    <span class="item-text">{{item.short_title or item.title}}</span>
+                    <div class="item-ctrl">
+                        <button class="ctrl-btn" style="color:var(--g-blue)" onclick="startEdit('certifications','{{id}}')">✎</button>
+                        <button class="ctrl-btn" style="color:var(--g-red)" onclick="deleteData('certifications','{{id}}')">×</button>
                     </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
 
-        <div class="card">
-            <h3>💼 Experience / Internships</h3>
-            <input type="text" id="exp-role" placeholder="Role (e.g. AI Intern)">
-            <input type="text" id="exp-comp" placeholder="Company Name">
-            <textarea id="exp-desc" placeholder="Key achievements..."></textarea>
-            <input type="text" id="exp-domain" placeholder="Domain (e.g. AI, Web Dev)">
-            <input type="text" id="exp-duration" placeholder="Duration (e.g. 3 months)">
-            <input type="text" id="exp-link" placeholder="Company Link (optional)">
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><input type="checkbox" id="exp-hide"> Hide (true/false)</label>
-            <button class="btn-add" id="exp-action" onclick="pushData('internships', {role: 'exp-role', company: 'exp-comp', desc: 'exp-desc', domain: 'exp-domain', duration: 'exp-duration', link: 'exp-link', hidden: 'exp-hide'})">Add Experience</button>
-            <div class="list-container">
-                {% for id, item in data.get('internships', {}).items() %}
-                <div class="live-item"><span>{{item.role}} @ {{item.company}} {% if item.hidden %}(Hidden){% endif %}</span><div><button class="del-btn" onclick="startEdit('internships','{{id}}')">✎</button><button class="del-btn" onclick="deleteData('internships','{{id}}')">×</button></div></div>
-                {% endfor %}
+        <div class="card" id="card-internships">
+            <h3>Internships</h3>
+            <input type="text" id="ex-role" placeholder="Your Role">
+            <input type="text" id="ex-comp" placeholder="Company Name">
+            <input type="text" id="ex-dur" placeholder="Duration (e.g. Jan 2024 - Present)">
+            <input type="text" id="ex-dom" placeholder="Domain (e.g. Artificial Intelligence)">
+            <input type="text" id="ex-link" placeholder="Certificate / Company Link">
+            <div class="action-group">
+                <button class="btn btn-primary" id="ex-btn" onclick="pushData('internships', {role:'ex-role', company:'ex-comp', duration:'ex-dur', domain:'ex-dom', link:'ex-link'})">Add Experience</button>
+                <button class="btn btn-outline" id="ex-cancel" onclick="cancelEdit('internships')">Cancel</button>
             </div>
-        </div>
-
-        <div class="card">
-            <h3>📱 Contacts & Socials</h3>
-            <input type="text" id="social-label" placeholder="Platform (e.g. Twitter)">
-            <input type="text" id="social-username" placeholder="Username">
-            <input type="text" id="social-url" placeholder="URL Link">
-            <button class="btn-add" id="contact-action" onclick="pushData('contacts', {label: 'social-label', username: 'social-username', url: 'social-url'})">Add Contact</button>
-            <div class="list-container">
-                {% for id, item in data.get('contacts', {}).items() %}
-                <div class="live-item"><span>{{item.label}} (@{{item.username}})</span><div><button class="del-btn" onclick="startEdit('contacts','{{id}}')">✎</button><button class="del-btn" onclick="deleteData('contacts','{{id}}')" >×</button></div></div>
+            <div class="preview-list">
+                {% for id, item in data.get('internships', {}).items() %}
+                <div class="list-item">
+                    <span class="item-text">{{item.role}} @ {{item.company}}</span>
+                    <div class="item-ctrl">
+                        <button class="ctrl-btn" style="color:var(--g-blue)" onclick="startEdit('internships','{{id}}')">✎</button>
+                        <button class="ctrl-btn" style="color:var(--g-red)" onclick="deleteData('internships','{{id}}')">×</button>
+                    </div>
+                </div>
                 {% endfor %}
             </div>
         </div>
@@ -207,50 +222,13 @@
 </div>
 
 <script>
-    // serverData available for client-side editing
     window.serverData = {{ data | tojson }};
     let currentEdit = {category: null, id: null};
-
-    function getVal(elId) {
-        const el = document.getElementById(elId);
-        if (!el) return null;
-        if (el.type === 'checkbox') return el.checked;
-        return el.value;
-    }
 
     async function pushData(category, fieldIds) {
         const payload = {};
         for (let key in fieldIds) {
-            const elId = fieldIds[key];
-            const el = document.getElementById(elId);
-            let val = null;
-            if (!el) { val = null; }
-            else if (el.type === 'checkbox') { val = el.checked; }
-            else { val = el.value; }
-
-            // If updating an existing single-record and any field empty, block client-side
-            const SINGLE = ['profile', 'description', 'socials'];
-            if (SINGLE.includes(category) && window.serverData[category] && (val === null || (typeof val === 'string' && val.trim() === ''))) {
-                alert('Please fill all fields in this card');
-                return;
-            }
-
-            // For add operations require title for projects/certifications/achievements
-            if ((category === 'projects' || category === 'certifications' || category === 'achievements') && key === 'title') {
-                if (!val || val.trim() === '') { alert('Title is required'); return; }
-            }
-
-            // For education, require school and title
-            if (category === 'education' && (key === 'school' || key === 'title')) {
-                if (!val || (typeof val === 'string' && val.trim() === '')) { alert('School/College and Education Title are required'); return; }
-            }
-
-            // Skip empty optional fields (start_year, end_year for education)
-            if ((category === 'education' && (key === 'start_year' || key === 'end_year')) && (val === '' || val === null)) {
-                continue;
-            }
-
-            payload[key] = val;
+            payload[key] = document.getElementById(fieldIds[key]).value;
         }
 
         let method = 'POST';
@@ -267,82 +245,63 @@
         });
 
         if (response.ok) location.reload();
-        else {
-            const err = await response.json().catch(()=>({message:'Error'}));
-            alert(err.message || 'Request failed');
-        }
+        else alert('Error updating data. Please try again.');
     }
 
-    async function deleteData(category, id) {
-        if (!confirm('Delete this entry?')) return;
-        const response = await fetch(`/api/${category}/${id}`, { method: 'DELETE' });
+    async function deleteData(cat, id) {
+        if (!confirm('Delete this permanently?')) return;
+        const response = await fetch(`/api/${cat}/${id}`, { method: 'DELETE' });
         if (response.ok) location.reload();
     }
 
-    function startEdit(category, id) {
-        const src = (window.serverData && window.serverData[category] && window.serverData[category][id]) || null;
-        if (!src) { alert('Item data not available'); return; }
-        currentEdit = {category, id};
-        if (category === 'projects') {
-            document.getElementById('proj-title').value = src.title || '';
-            document.getElementById('proj-team').value = (src.team || []).join ? (src.team.join(', ')) : (src.team || '');
-            document.getElementById('proj-domain').value = src.domain || '';
-            document.getElementById('proj-desc').value = src.desc || '';
-            document.getElementById('proj-date').value = src.date || '';
-            document.getElementById('proj-link').value = src.link || '';
-            document.getElementById('proj-hide').checked = !!src.hidden;
-            document.getElementById('proj-action').innerText = 'Update Project';
-        }
-        if (category === 'certifications') {
-            document.getElementById('cert-title').value = src.title || '';
-            document.getElementById('cert-org').value = src.issuer || '';
-            document.getElementById('cert-start').value = src.start || '';
-            document.getElementById('cert-end').value = src.end || '';
-            document.getElementById('cert-domain').value = src.domain || '';
-            document.getElementById('cert-id').value = src.credid || '';
-            document.getElementById('cert-link').value = src.link || '';
-            document.getElementById('cert-hide').checked = !!src.hidden;
-            document.getElementById('cert-action').innerText = 'Update Cert';
-        }
-        if (category === 'internships') {
-            document.getElementById('exp-role').value = src.role || '';
-            document.getElementById('exp-comp').value = src.company || '';
-            document.getElementById('exp-desc').value = src.desc || '';
-            document.getElementById('exp-domain').value = src.domain || '';
-            document.getElementById('exp-duration').value = src.duration || '';
-            document.getElementById('exp-link').value = src.link || '';
-            document.getElementById('exp-hide').checked = !!src.hidden;
-            document.getElementById('exp-action').innerText = 'Update Experience';
-        }
-        if (category === 'skills') {
-            document.getElementById('skill-name').value = src.name || '';
-            document.getElementById('skill-val').value = src.value || '';
-            document.getElementById('skill-action').innerText = 'Update Skill';
-        }
-        if (category === 'education') {
-            document.getElementById('edu-school').value = src.school || '';
-            document.getElementById('edu-title').value = src.title || '';
-            document.getElementById('edu-start').value = src.start_year || '';
-            document.getElementById('edu-end').value = src.end_year || '';
-            document.getElementById('edu-action').innerText = 'Update Education';
-        }
-        if (category === 'contacts') {
-            document.getElementById('social-label').value = src.label || '';
-            document.getElementById('social-username').value = src.username || '';
-            document.getElementById('social-url').value = src.url || '';
-            document.getElementById('contact-action').innerText = 'Update Contact';
+    function startEdit(cat, id) {
+        const item = window.serverData[cat][id];
+        currentEdit = {category: cat, id: id};
+        
+        const card = document.getElementById(`card-${cat}`);
+        const saveBtn = card.querySelector('.btn-primary');
+        const cancelBtn = card.querySelector('.btn-outline');
+        
+        saveBtn.innerText = 'Update Entry';
+        cancelBtn.style.display = 'block';
+
+        if (cat === 'skills') {
+            document.getElementById('sk-name').value = item.name || '';
+            document.getElementById('sk-level').value = item.level || 'Intermediate';
+        } else if (cat === 'education') {
+            document.getElementById('edu-school').value = item.school || '';
+            document.getElementById('edu-title').value = item.title || '';
+            document.getElementById('edu-year').value = item.year || '';
+        } else if (cat === 'projects') {
+            document.getElementById('pj-title').value = item.title || '';
+            document.getElementById('pj-dom').value = item.domain || '';
+            document.getElementById('pj-link').value = item.link || '';
+            document.getElementById('pj-p1').value = item.p1 || '';
+            document.getElementById('pj-p2').value = item.p2 || '';
+            document.getElementById('pj-p3').value = item.p3 || '';
+        } else if (cat === 'certifications') {
+            document.getElementById('c-title').value = item.title || '';
+            document.getElementById('c-short').value = item.short_title || '';
+            document.getElementById('c-iss').value = item.issuer || '';
+            document.getElementById('c-dom').value = item.domain || '';
+            document.getElementById('c-link').value = item.link || '';
+        } else if (cat === 'internships') {
+            document.getElementById('ex-role').value = item.role || '';
+            document.getElementById('ex-comp').value = item.company || '';
+            document.getElementById('ex-dur').value = item.duration || '';
+            document.getElementById('ex-dom').value = item.domain || '';
+            document.getElementById('ex-link').value = item.link || '';
         }
     }
 
-    // Reset edit state if needed
-    function clearEdit() {
-        currentEdit = {category:null, id:null};
-        document.getElementById('proj-action').innerText = 'Add Project';
-        document.getElementById('cert-action').innerText = 'Add Cert';
-        document.getElementById('exp-action').innerText = 'Add Experience';
-        document.getElementById('contact-action').innerText = 'Add Contact';
-        document.getElementById('skill-action').innerText = 'Add Skill';
-        document.getElementById('edu-action').innerText = 'Add Education';
+    function cancelEdit(cat) {
+        currentEdit = {category: null, id: null};
+        const card = document.getElementById(`card-${cat}`);
+        card.querySelector('.btn-primary').innerText = 'Add New Item';
+        card.querySelector('.btn-outline').style.display = 'none';
+        
+        const fields = card.querySelectorAll('input, textarea');
+        fields.forEach(f => f.value = '');
     }
 </script>
 
