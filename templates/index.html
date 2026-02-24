@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
         :root {
-            --g-green-variant: #81c995; /* The Green for the top borders */
+            --g-green-variant: #81c995; 
             --g-blue: #8ab4f8;
             --g-red: #f28b82;
             --g-yellow: #fdd663;
             --bg-color: #000000;
             --surface: #121212;
             --surface-variant: #1e1e1e;
-            --text-main: #e8eaed;
+            --text-main: #ffffff; 
             --text-sub: #9aa0a6;
             --border: #3c4043;
             --radius: 28px; 
@@ -30,14 +30,17 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.5;
+            overflow-x: hidden;
         }
 
-        /* --- NAVIGATION --- */
+        /* Navigation Expanded */
         nav {
+            position: -webkit-sticky;
             position: sticky;
             top: 0;
             background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 1000;
             padding: 12px 6%;
             display: flex;
@@ -46,10 +49,30 @@
             border-bottom: var(--outline-width) solid var(--border);
         }
 
-        .nav-brand { font-size: 22px; font-weight: 500; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 30px; }
-        .nav-links a { text-decoration: none; color: var(--text-sub); font-size: 14px; transition: 0.2s; }
-        .nav-links a:hover { color: var(--g-blue); }
+        .nav-brand {
+            font-size: 22px;
+            font-weight: 500;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-sub);
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--g-blue);
+        }
 
         .admin-pill {
             background: #1a1a1a;
@@ -57,27 +80,51 @@
             padding: 8px 20px;
             border-radius: 50px;
             border: var(--outline-width) solid var(--g-blue);
+            transition: all 0.3s ease;
         }
 
-        /* --- HERO --- */
-        header { padding: 120px 10% 80px 10%; text-align: center; }
-        .hero-name { font-size: clamp(40px, 8vw, 72px); font-weight: 700; margin: 0; color: #ffffff; }
-        .hero-tag { font-size: 22px; color: var(--text-sub); margin: 15px 0 40px 0; }
+        /* Header / Hero Section */
+        header {
+            padding: 120px 10% 80px 10%;
+            text-align: center;
+        }
 
-        .chip-container { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .hero-name {
+            font-size: clamp(40px, 8vw, 72px);
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -1.5px;
+            color: #ffffff;
+        }
+
+        .hero-tag {
+            font-size: 22px;
+            color: var(--text-sub);
+            margin: 15px 0 40px 0;
+        }
+
+        .chip-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
         .chip {
             padding: 10px 24px;
             background: var(--surface-variant);
             border: var(--outline-width) solid var(--border);
             border-radius: 100px;
             font-size: 14px;
+            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 8px;
-            color: var(--text-main);
+            transition: 0.3s;
+            color: #ffffff;
         }
 
-        /* --- BENTO GRID --- */
+        /* Grid System */
         .main-content {
             max-width: 1300px;
             margin: 0 auto;
@@ -92,9 +139,10 @@
             border-radius: var(--radius);
             padding: 40px;
             border: var(--outline-width) solid var(--border);
-            /* This is the change you requested: Unified Green on top of ALL boxes */
+            /* Unified Green Top Border */
             border-top: 6px solid var(--g-green-variant);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
 
         .col-7 { grid-column: span 7; }
@@ -102,7 +150,7 @@
         .col-6 { grid-column: span 6; }
         .col-12 { grid-column: span 12; }
 
-        /* LOGO BOX FIX (Visibility) */
+        /* Social Icons */
         .logo-box {
             background: #ffffff;
             padding: 8px;
@@ -113,7 +161,11 @@
             align-items: center;
             justify-content: center;
         }
-        .logo-img { width: 28px; height: 28px; }
+
+        .logo-img {
+            width: 28px;
+            height: 28px;
+        }
 
         .social-btn-inner {
             background: var(--surface-variant); 
@@ -126,14 +178,14 @@
             gap: 12px;
             transition: 0.3s;
         }
-        .social-btn-inner:hover { border-color: var(--g-blue); }
 
+        /* Sub-components */
         .skill-tag {
             background: #252525;
             padding: 8px 18px;
             border-radius: 12px;
             border: 1px solid var(--border);
-            font-size: 13px;
+            color: #ffffff;
         }
 
         .project-card {
@@ -148,6 +200,13 @@
             margin-bottom: 30px;
             padding-left: 20px;
             border-left: var(--outline-width) solid var(--border);
+        }
+
+        footer {
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-sub);
         }
 
         @media (max-width: 1024px) {
@@ -169,8 +228,8 @@
 
 <header>
     {% set profile = data.get('profile', {}) %}
-    <h1 class="hero-name">{{ profile.get('name', 'Developer Name') }}</h1>
-    <p class="hero-tag">{{ profile.get('profession', 'Software Developer') }}</p>
+    <h1 class="hero-name">{{ profile.get('name', 'Developer') }}</h1>
+    <p class="hero-tag">{{ profile.get('profession', 'Software Engineer') }}</p>
     
     <div class="chip-container">
         <div class="chip">
@@ -179,11 +238,11 @@
         </div>
         <div class="chip">
             <span class="material-symbols-outlined" style="color:var(--g-blue)">mail</span>
-            {{ profile.get('email', 'email@example.com') }}
+            {{ profile.get('email', 'Email') }}
         </div>
         <div class="chip">
             <span class="material-symbols-outlined" style="color:var(--g-green-variant)">call</span>
-            +91 {{ profile.get('phone', '0000000000') }}
+            +91 {{ profile.get('phone', 'Phone') }}
         </div>
     </div>
 </header>
@@ -191,33 +250,45 @@
 <div class="main-content">
     
     <div class="card col-7" id="about">
-        <h2><span style="color: var(--g-blue)">○</span> ABOUT</h2>
-        <p style="font-size: 18px; color: var(--text-sub); text-align: justify;">
-            {{ profile.get('description', 'About Description') }}
+        <h2 style="color: #ffffff;"><span style="color: var(--g-blue)">○</span> ABOUT</h2>
+        <p style="font-size: 18px; color: #ffffff; text-align: justify;">
+            {{ profile.get('description', 'About section...') }}
         </p>
+        
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 30px;">
-            {% for platform in ['github', 'linkedin', 'leetcode', 'hackerrank'] %}
-            {% set link = data.get('socials', {}).get(platform + '_link') %}
-            {% if link %}
-            <a href="{{ link }}" target="_blank" style="text-decoration: none;">
+            <a href="{{ data.get('socials', {}).get('github_link') }}" target="_blank" style="text-decoration: none;">
                 <div class="social-btn-inner">
-                    <div class="logo-box">
-                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/{{ platform }}.svg" class="logo-img">
-                    </div>
-                    <div style="font-size: 15px; font-weight: 600; color: #fff; text-transform: capitalize;">{{ platform }}</div>
+                    <div class="logo-box"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" class="logo-img"></div>
+                    <div style="font-size: 15px; font-weight: 600; color: #ffffff;">GitHub</div>
                 </div>
             </a>
-            {% endif %}
-            {% endfor %}
+            <a href="{{ data.get('socials', {}).get('linkedin_link') }}" target="_blank" style="text-decoration: none;">
+                <div class="social-btn-inner">
+                    <div class="logo-box"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg" class="logo-img"></div>
+                    <div style="font-size: 15px; font-weight: 600; color: #ffffff;">LinkedIn</div>
+                </div>
+            </a>
+            <a href="{{ data.get('socials', {}).get('leetcode_link') }}" target="_blank" style="text-decoration: none;">
+                <div class="social-btn-inner">
+                    <div class="logo-box"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/leetcode.svg" class="logo-img"></div>
+                    <div style="font-size: 15px; font-weight: 600; color: #ffffff;">LeetCode</div>
+                </div>
+            </a>
+            <a href="{{ data.get('socials', {}).get('hackerrank_link') }}" target="_blank" style="text-decoration: none;">
+                <div class="social-btn-inner">
+                    <div class="logo-box"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/hackerrank.svg" class="logo-img"></div>
+                    <div style="font-size: 15px; font-weight: 600; color: #ffffff;">HackerRank</div>
+                </div>
+            </a>
         </div>
     </div>
 
     <div class="card col-5">
-        <h2><span style="color: var(--g-red)">□</span> SKILLS</h2>
+        <h2 style="color: #ffffff;"><span style="color: var(--g-red)">□</span> SKILLS</h2>
         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
             {% for id, skill in data.get('skills', {}).items() %}
             <div class="skill-tag">
-                <span style="font-weight: 600;">{{ skill.name }}</span>
+                <span style="font-weight: 600; color: #ffffff;">{{ skill.name }}</span>
                 <span style="font-size: 10px; color: var(--g-red); font-weight: 700; margin-left: 5px;">{{ skill.level }}</span>
             </div>
             {% endfor %}
@@ -225,17 +296,14 @@
     </div>
     
     <div class="card col-12" id="projects">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h2><span style="color: var(--g-green-variant)">△</span> PROJECTS</h2>
-            <span style="font-size: 14px; color: var(--text-sub);">{{ data.get('projects', {})|length }} TOTAL</span>
-        </div>
+        <h2 style="color: #ffffff;"><span style="color: var(--g-green-variant)">△</span> PROJECTS</h2>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
             {% for id, proj in data.get('projects', {}).items() %}
             {% if not proj.hidden %}
             <div class="project-card">
-                <div style="color: var(--g-green-variant); font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">{{ proj.domain }}</div>
-                <a href="{{ proj.link }}" target="_blank" style="color: var(--g-blue); text-decoration: none; font-size: 18px; font-weight: 700;">{{ proj.title }} ↗</a>
-                <p style="font-size: 14px; color: var(--text-sub);">{{ proj.desc }}</p>
+                <div style="color: var(--g-green-variant); font-size: 11px; font-weight: 700; text-transform: uppercase;">{{ proj.domain }}</div>
+                <a href="{{ proj.link }}" target="_blank" style="color: #ffffff; text-decoration: none; font-size: 18px; font-weight: 700;">{{ proj.title }} ↗</a>
+                <p style="font-size: 14px; color: #ffffff; opacity: 0.9;">{{ proj.desc }}</p>
             </div>
             {% endif %}
             {% endfor %}
@@ -245,22 +313,22 @@
     <div class="card col-6">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
             <div>
-                <h3 style="font-size: 16px; color: var(--g-blue); margin-bottom: 20px;">EXPERIENCE</h3>
+                <h3 style="color: #ffffff; font-size: 16px; margin-bottom: 20px;">EXPERIENCE</h3>
                 {% for id, exp in data.get('internships', {}).items() %}
                 <div class="exp-item">
                     <div style="font-size: 12px; color: var(--g-blue); font-weight: 700;">{{ exp.duration }}</div>
-                    <div style="font-weight: 500; font-size: 16px;">{{ exp.role }}</div>
-                    <div style="font-size: 14px; color: var(--text-sub);">{{ exp.company }}</div>
+                    <div style="font-weight: 500; font-size: 16px; color: #ffffff;">{{ exp.role }}</div>
+                    <div style="font-size: 14px; color: #ffffff; opacity: 0.8;">{{ exp.company }}</div>
                 </div>
                 {% endfor %}
             </div>
             <div>
-                <h3 style="font-size: 16px; color: var(--text-sub); margin-bottom: 20px;">EDUCATION</h3>
+                <h3 style="color: #ffffff; font-size: 16px; margin-bottom: 20px;">EDUCATION</h3>
                 {% for id, edu in data.get('education', {}).items() %}
                 <div class="exp-item">
-                    <div style="font-size: 12px; color: var(--text-sub);">{{ edu.year }}</div>
-                    <div style="font-weight: 500; font-size: 16px;">{{ edu.title }}</div>
-                    <div style="font-size: 14px;">{{ edu.school }}</div>
+                    <div style="font-size: 12px; color: #ffffff; opacity: 0.7;">{{ edu.year }}</div>
+                    <div style="font-weight: 500; font-size: 16px; color: #ffffff;">{{ edu.title }}</div>
+                    <div style="font-size: 14px; color: #ffffff;">{{ edu.school }}</div>
                 </div>
                 {% endfor %}
             </div>
@@ -269,13 +337,13 @@
 
     <div class="card col-6" id="certifications">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2 style="color: var(--g-red)"><span>□</span> CERTIFICATIONS</h2>
-            <a href="{{ url_for('certifications') }}" style="color: var(--g-red); border: 1px solid var(--g-red); padding: 5px 12px; border-radius: 50px; text-decoration: none; font-size: 11px;">View All ↗</a>
+            <h2 style="color: #ffffff;"><span style="color: var(--g-red)">□</span> CERTIFICATIONS</h2>
+            <a href="{{ url_for('certifications') }}" style="color: #ffffff; border: 1px solid #ffffff; padding: 5px 12px; border-radius: 50px; font-size: 11px; text-decoration: none;">View All</a>
         </div>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
             {% for id, cert in data.get('certifications', {}).items() %}
             <div style="background: var(--surface-variant); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px;">
-                <div style="font-size: 13px; font-weight: 600;">{{ cert.short_title }}</div>
+                <div style="font-size: 13px; font-weight: 600; color: #ffffff;">{{ cert.short_title }}</div>
             </div>
             {% endfor %}
         </div>
@@ -283,10 +351,8 @@
 
 </div>
 
-<footer style="padding: 60px 0; text-align: center; border-top: 1px solid var(--border);">
-    <div style="font-size: 13px; color: var(--text-sub);">
-        &copy; 2026 {{ profile.get('name', 'Developer') }}
-    </div>
+<footer>
+    <div>&copy; 2026 {{ profile.get('name', 'Developer') }}</div>
 </footer>
 
 </body>
