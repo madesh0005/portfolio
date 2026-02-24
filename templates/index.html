@@ -8,130 +8,73 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
         :root {
-            --g-blue: #1a73e8;
-            --g-red: #ea4335;
-            --g-yellow: #fbbc04;
-            --g-green: #34a853;
-            --bg-color: #ffffff;
-            --surface: #f8f9fa;
-            --text-main: #202124;
-            --text-sub: #5f6368;
-            --border: #dadce0;
-            --shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
-            --radius: 28px; /* Modern Material 3 Roundedness */
+            --g-green-variant: #81c995; 
+            --g-blue: #8ab4f8;
+            --g-red: #f28b82;
+            --bg-color: #000000;
+            --surface: #121212;
+            --surface-variant: #1e1e1e;
+            --text-white: #ffffff; 
+            --text-sub: #9aa0a6;
+            --border: #3c4043;
+            --radius: 28px; 
+            --outline-width: 2px;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; outline: none; }
         
         body {
             margin: 0;
             font-family: 'Google Sans', 'Roboto', sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-main);
+            color: var(--text-white);
             line-height: 1.5;
-            overflow-x: hidden;
         }
 
-        /* --- SMOOTH ANIMATIONS --- */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- NAVIGATION --- */
+        /* Navigation */
         nav {
             position: sticky;
             top: 0;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(12px);
             z-index: 1000;
             padding: 12px 6%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border);
-            user-select: none;
+            border-bottom: var(--outline-width) solid var(--border);
         }
 
-        .nav-brand {
-            font-size: 22px;
-            font-weight: 500;
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
+        .nav-brand { font-size: 22px; font-weight: 500; color: #ffffff; }
         .nav-links { display: flex; align-items: center; gap: 30px; }
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-sub);
-            font-weight: 500;
-            font-size: 14px;
-            transition: color 0.2s;
-        }
-        .nav-links a:hover { color: var(--g-blue); }
-
+        .nav-links a { text-decoration: none; color: var(--text-sub); font-size: 14px; }
+        
         .admin-pill {
-            background: #e8f0fe;
-            color: var(--g-blue) !important;
+            background: #1a1a1a;
+            color: #ffffff !important; /* Unified white */
             padding: 8px 20px;
             border-radius: 50px;
-            transition: all 0.3s !important;
-        }
-        .admin-pill:hover { background: var(--g-blue) !important; color: white !important; }
-
-        /* --- HERO --- */
-        header {
-            padding: 120px 10% 80px 10%;
-            text-align: center;
-            animation: fadeInDown 0.8s ease-out;
-            user-select: none;
+            border: var(--outline-width) solid var(--g-green-variant);
         }
 
-        .hero-name {
-            font-size: clamp(40px, 8vw, 72px);
-            font-weight: 700;
-            margin: 0;
-            letter-spacing: -1.5px;
-            background: linear-gradient(90deg, var(--g-blue), #4285f4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        /* Hero */
+        header { padding: 120px 10% 80px 10%; text-align: center; }
+        .hero-name { font-size: clamp(40px, 8vw, 72px); font-weight: 700; margin: 0; color: #ffffff; }
+        .hero-tag { font-size: 22px; color: var(--text-sub); margin: 15px 0 40px 0; }
 
-        .hero-tag {
-            font-size: 22px;
-            color: var(--text-sub);
-            margin: 15px 0 40px 0;
-        }
-
-        .chip-container {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
+        .chip-container { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
         .chip {
             padding: 10px 24px;
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--surface-variant);
+            border: var(--outline-width) solid var(--border);
             border-radius: 100px;
-            font-size: 14px;
-            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: 0.3s;
+            color: #ffffff;
         }
-        .chip:hover { border-color: var(--g-blue); background: #fff; transform: translateY(-2px); }
 
-        /* --- BENTO GRID --- */
+        /* Grid */
         .main-content {
             max-width: 1300px;
             margin: 0 auto;
@@ -139,152 +82,66 @@
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             gap: 24px;
-            animation: fadeInUp 1s ease-out;
-            user-select: none;
         }
 
         .card {
             background: var(--surface);
             border-radius: var(--radius);
             padding: 40px;
-            border: 1px solid transparent;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            border: var(--outline-width) solid var(--border);
+            border-top: 6px solid var(--g-green-variant);
+            color: #ffffff; /* Global white text for cards */
         }
-
-        .card:hover {
-            background: #ffffff;
-            border-color: var(--border);
-            box-shadow: var(--shadow);
-        }
-
-        /* Accent Borders */
-        .accent-blue { border-top: 6px solid var(--g-blue); }
-        .accent-red { border-top: 6px solid var(--g-red); }
-        .accent-green { border-top: 6px solid var(--g-green); }
 
         .col-7 { grid-column: span 7; }
         .col-5 { grid-column: span 5; }
-        .col-8 { grid-column: span 8; }
-        .col-4 { grid-column: span 4; }
         .col-6 { grid-column: span 6; }
         .col-12 { grid-column: span 12; }
 
-        h2 {
-            font-size: 24px;
-            font-weight: 500;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
+        /* Logos */
+        .logo-box { background: #ffffff; padding: 8px; border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; }
+        .logo-img { width: 28px; height: 28px; }
+
+        .social-btn-inner {
+            background: var(--surface-variant); 
+            padding: 24px; 
+            border-radius: 24px; 
+            border: var(--outline-width) solid var(--border); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
             gap: 12px;
         }
 
-        /* --- SKILLS --- */
-        .skill-pill-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
         .skill-tag {
-            background: #fff;
+            background: #252525;
             padding: 8px 18px;
             border-radius: 12px;
             border: 1px solid var(--border);
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        /* --- PROJECTS --- */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
+            color: #ffffff;
         }
 
         .project-card {
-            background: #fff;
+            background: var(--surface-variant);
             padding: 30px;
             border-radius: 20px;
-            border: 1px solid var(--border);
-            transition: 0.3s;
-        }
-        .project-card:hover { border-color: var(--g-blue); transform: scale(1.02); }
-
-        .proj-link {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--g-blue);
-            text-decoration: none;
-            display: inline-block;
-            margin-bottom: 10px;
+            border: var(--outline-width) solid var(--border);
+            margin-bottom: 20px;
         }
 
-        /* --- TIMELINE --- */
         .exp-item {
             margin-bottom: 30px;
             padding-left: 20px;
-            border-left: 2px solid #e8eaed;
-            position: relative;
-        }
-        .exp-item::before {
-            content: '';
-            position: absolute;
-            left: -6px;
-            top: 0;
-            width: 10px;
-            height: 10px;
-            background: var(--g-blue);
-            border-radius: 50%;
+            border-left: var(--outline-width) solid var(--border);
         }
 
-        /* --- CONTACT LINKS --- */
-        .social-btn {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 24px;
-            background: #fff;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            text-decoration: none;
-            color: var(--text-main);
-            margin-bottom: 12px;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-        .social-btn:hover { background: var(--g-blue); color: #fff; }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 1024px) {
-            .col-8, .col-4 { grid-column: span 12; }
-            header { padding: 80px 5% 40px 5%; }
-        }
-        .material-symbols-outlined {
-            vertical-align: middle; /* Aligns with text */
-            font-size: 20px;        /* Adjust size */
-            color: #DB4437;         /* Optional: Map pin red */
-        }
-
-        .pill-red {
-            background: #fce8e6;
-            color: var(--g-red) !important;
-            padding: 8px 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .pill-red:hover { background: var(--g-red) !important; color: white !important; }
+        @media (max-width: 1024px) { .col-7, .col-5, .col-6, .col-12 { grid-column: span 12; } }
     </style>
 </head>
 <body>
 
 <nav>
-    <div class="nav-brand">
-        PORTFOLIO
-    </div>
+    <div class="nav-brand">PORTFOLIO</div>
     <div class="nav-links">
         <a href="#about">ABOUT</a>
         <a href="#projects">PROJECTS</a>
@@ -295,171 +152,108 @@
 
 <header>
     {% set profile = data.get('profile', {}) %}
-    <h1 class="hero-name">{{ profile.get('name', 'Your Name') }}</h1>
-    <p class="hero-tag">{{ profile.get('profession', 'Profession') }}</p>
+    <h1 class="hero-name">{{ profile.get('name', 'Developer') }}</h1>
+    <p class="hero-tag">{{ profile.get('profession', 'Software Engineer') }}</p>
     
     <div class="chip-container">
-        <div class="chip"><span class="material-symbols-outlined">location_on</span>{{ profile.get('city', 'City') }}, {{ profile.get('country', 'Country') }}</div>
-        <div class="chip"><span class="material-symbols-outlined">mail</span>{{ profile.get('email', 'email@domain.com') }}</div>
-        <div class="chip"><span class="material-symbols-outlined">call</span>+91 {{ profile.get('phone', '0123456789') }}</div>
+        <div class="chip"><span class="material-symbols-outlined" style="color:var(--g-red)">location_on</span>{{ profile.get('city', 'City') }}, {{ profile.get('country', 'Country') }}</div>
+        <div class="chip"><span class="material-symbols-outlined" style="color:var(--g-blue)">mail</span>{{ profile.get('email', 'Email') }}</div>
+        <div class="chip"><span class="material-symbols-outlined" style="color:var(--g-green-variant)">call</span>+91 {{ profile.get('phone', 'Phone') }}</div>
     </div>
 </header>
 
 <div class="main-content">
     
-    <div class="card col-7 accent-blue" id="about">
-        <h2><span style="color: var(--g-blue)">○</span> ABOUT</h2>
-        <p style="font-size: 18px; color: var(--text-sub); text-align: justify;">
-            {{ profile.get('description', 'Description') }}
-        </p>
+    <div class="card col-7" id="about">
+        <h2 style="color: #ffffff;"><span style="color: var(--g-blue)">○</span> ABOUT</h2>
+        <p style="font-size: 18px; color: #ffffff;">{{ profile.get('description', 'About section...') }}</p>
+        
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 30px;">
-    
-    <a href="{{ data.get('socials', {}).get('github_link') }}" target="_blank" style="text-decoration: none;">
-        <div style="background: #fff; padding: 24px; border-radius: 24px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--g-blue)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='translateY(0)';" >
-            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" alt="GitHub" style="width: 32px; height: 32px;">
-            <div style="font-size: 15px; font-weight: 600; color: var(--text-main);">GitHub</div>
+            {% for platform in ['github', 'linkedin', 'leetcode', 'hackerrank'] %}
+            {% set link = data.get('socials', {}).get(platform + '_link') %}
+            {% if link %}
+            <a href="{{ link }}" target="_blank" style="text-decoration: none;">
+                <div class="social-btn-inner">
+                    <div class="logo-box"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/{{ platform }}.svg" class="logo-img"></div>
+                    <div style="font-size: 15px; font-weight: 600; color: #ffffff; text-transform: capitalize;">{{ platform }}</div>
+                </div>
+            </a>
+            {% endif %}
+            {% endfor %}
         </div>
-    </a>
-
-    <a href="{{ data.get('socials', {}).get('linkedin_link') }}" target="_blank" style="text-decoration: none;">
-        <div style="background: #fff; padding: 24px; border-radius: 24px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--g-blue)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='translate;Y(0)';" >
-            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg" alt="LinkedIn" style="width: 32px; height: 32px; filter: invert(31%) sepia(93%) saturate(1414%) hue-rotate(192deg) brightness(94%) contrast(101%);">
-            <div style="font-size: 15px; font-weight: 600; color: var(--text-main);">LinkedIn</div>
-        </div>
-    </a>
-
-    <a href="{{ data.get('socials', {}).get('leetcode_link') }}" target="_blank" style="text-decoration: none;">
-        <div style="background: #fff; padding: 24px; border-radius: 24px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--g-blue)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='translateY(0)';" >
-            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/leetcode.svg" alt="LeetCode" style="width: 32px; height: 32px; filter: invert(72%) sepia(87%) saturate(452%) hue-rotate(352deg) brightness(102%) contrast(102%);">
-            <div style="font-size: 15px; font-weight: 600; color: var(--text-main);">LeetCode</div>
-        </div>
-    </a>
-
-    <a href="{{ data.get('socials', {}).get('hackerrank_link') }}" target="_blank" style="text-decoration: none;">
-        <div style="background: #fff; padding: 24px; border-radius: 24px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--g-blue)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='translateY(0)';" >
-            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/hackerrank.svg" alt="HackerRank" style="width: 32px; height: 32px; filter: invert(47%) sepia(93%) saturate(356%) hue-rotate(94deg) brightness(96%) contrast(92%);">
-            <div style="font-size: 15px; font-weight: 600; color: var(--text-main);">HackerRank</div>
-        </div>
-    </a>
-
-</div>
     </div>
 
-    <div class="card col-5 accent-red">
-        <h2><span style="color: var(--g-red)">□</span>SKILLS</h2>
-        <div class="skill-pill-container" style="display: flex; flex-wrap: wrap; gap: 10px;">
+    <div class="card col-5">
+        <h2 style="color: #ffffff;"><span style="color: var(--g-red)">□</span> SKILLS</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
             {% for id, skill in data.get('skills', {}).items() %}
-            <div class="skill-tag" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--border); border-radius: 10px; background: #fff;">
-                <span style="font-weight: 600; font-size: 14px; color: var(--text-main);">{{ skill.name }}</span>
-                <span style="font-size: 10px; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; background: #f1f3f4; color: var(--text-sub); font-weight: 700; letter-spacing: 0.5px;">
-                    {{ skill.level }}
-                </span>
+            <div class="skill-tag">
+                <span style="font-weight: 600; color: #ffffff;">{{ skill.name }}</span>
+                <span style="font-size: 10px; color: #ffffff; opacity: 0.6; margin-left: 5px;">{{ skill.level }}</span>
             </div>
             {% endfor %}
         </div>
-        <p style="margin-top: 20px; font-size: 13px; color: var(--text-sub);">
-            Focusing on core principles and practical problem-solving through hands-on projects.
-        </p>
     </div>
     
-    <div class="card col-12 accent-green" id="projects">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h2><span style="color: var(--g-green)">△</span> PROJECTS</h2>
-            <span style="font-size: 14px; color: var(--text-sub);">{{ data.get('projects', {})|length }} PROJECTS</span>
-        </div>
-        <div class="project-grid">
+    <div class="card col-12" id="projects">
+        <h2 style="color: #ffffff;"><span style="color: var(--g-green-variant)">△</span> PROJECTS</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
             {% for id, proj in data.get('projects', {}).items() %}
             {% if not proj.hidden %}
             <div class="project-card">
-                <div style="color: var(--g-green); font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">{{ proj.domain }}</div>
-                <a href="{{ proj.link }}" target="_blank" class="proj-link">{{ proj.title }} ↗</a>
-                <p style="font-size: 14px; color: var(--text-sub); margin-bottom: 15px;">{{ proj.desc }}</p>
+                <div style="color: var(--g-green-variant); font-size: 11px; font-weight: 700; text-transform: uppercase;">{{ proj.domain }}</div>
+                <a href="{{ proj.link }}" target="_blank" style="color: #ffffff; text-decoration: none; font-size: 18px; font-weight: 700;">{{ proj.title }} ↗</a>
+                <p style="font-size: 14px; color: #ffffff; opacity: 0.9;">{{ proj.desc }}</p>
             </div>
             {% endif %}
             {% endfor %}
         </div>
     </div>
 
-    <div class="card col-6 accent-blue">
+    <div class="card col-6">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
             <div>
-                <h3 style="font-size: 16px; letter-spacing: 1px; color: var(--text-sub); margin-bottom: 20px;">EXPERIENCE</h3>
+                <h3 style="color: #ffffff; font-size: 16px; margin-bottom: 20px;">EXPERIENCE</h3>
                 {% for id, exp in data.get('internships', {}).items() %}
                 <div class="exp-item">
-                    <div style="font-size: 12px; color: var(--g-blue); font-weight: 700;">{{ exp.duration }}</div>
-                    <div style="font-weight: 500; font-size: 16px;">{{ exp.role }}</div>
-                    <div style="font-size: 14px; color: var(--text-sub);">{{ exp.company }}</div>
+                    <div style="font-size: 12px; color: #ffffff; opacity: 0.7;">{{ exp.duration }}</div>
+                    <div style="font-weight: 500; font-size: 16px; color: #ffffff;">{{ exp.role }}</div>
+                    <div style="font-size: 14px; color: #ffffff; opacity: 0.8;">{{ exp.company }}</div>
                 </div>
                 {% endfor %}
             </div>
             <div>
-                <h3 style="font-size: 16px; letter-spacing: 1px; color: var(--text-sub); margin-bottom: 20px;">EDUCATION</h3>
+                <h3 style="color: #ffffff; font-size: 16px; margin-bottom: 20px;">EDUCATION</h3>
                 {% for id, edu in data.get('education', {}).items() %}
                 <div class="exp-item">
-                    <div style="font-size: 12px; color: var(--text-sub);">{{ edu.year }}</div>
-                    <div style="font-weight: 500; font-size: 16px;">{{ edu.title }}</div>
-                    <div style="font-size: 14px;">{{ edu.school }}</div>
+                    <div style="font-size: 12px; color: #ffffff; opacity: 0.7;">{{ edu.year }}</div>
+                    <div style="font-weight: 500; font-size: 16px; color: #ffffff;">{{ edu.title }}</div>
+                    <div style="font-size: 14px; color: #ffffff;">{{ edu.school }}</div>
                 </div>
                 {% endfor %}
             </div>
         </div>
     </div>
 
-<div class="card col-6 accent-red" id="certifications">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h2><span style="color: var(--g-red)">□</span> Certifications</h2>
-        <a href="{{ url_for('certifications') }}" class="pill-red" style="font-size: 11px; padding: 5px 12px; text-decoration: none;">
-            View All ↗
-        </a>
-    </div>
-
-    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-        {% for id, cert in data.get('certifications', {}).items() %}
-        <div style="background: #fafafa; border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; transition: 0.2s;" 
-             onmouseover="this.style.borderColor='var(--g-red)'; this.style.background='#fffce8';" 
-             onmouseout="this.style.borderColor='var(--border)'; this.style.background='#fafafa';">
-            
-            <div style="font-size: 13px; font-weight: 600; color: var(--text-main); white-space: nowrap;">
-                {{ cert.short_title }}
-            </div>
-            
+    <div class="card col-6" id="certifications">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="color: #ffffff;"><span style="color: var(--g-red)">□</span> CERTIFICATIONS</h2>
+            <a href="{{ url_for('certifications') }}" style="color: #ffffff; border: 1px solid #ffffff; padding: 5px 12px; border-radius: 50px; font-size: 11px; text-decoration: none;">View All</a>
         </div>
-        {% endfor %}
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            {% for id, cert in data.get('certifications', {}).items() %}
+            <div style="background: var(--surface-variant); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px;">
+                <div style="font-size: 13px; font-weight: 600; color: #ffffff;">{{ cert.short_title }}</div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-</div>
 
 </div>
 
-<footer style="padding: 60px 0; text-align: center; border-top: 1px solid var(--border); background: var(--surface);">
-    <div style="margin-bottom: 10px;">
-        <span style="color: var(--g-blue)">●</span>
-        <span style="color: var(--g-red)">●</span>
-        <span style="color: var(--g-yellow)">●</span>
-        <span style="color: var(--g-green)">●</span>
-    </div>
-    <div style="font-size: 13px; color: var(--text-sub);">
-        &copy; 2026 {{ profile.get('name', 'Developer') }} • Crafted with Material 3 Principles
-    </div>
+<footer style="padding: 60px; text-align: center; border-top: 1px solid var(--border); color: #ffffff; opacity: 0.6;">
+    &copy; 2026 {{ profile.get('name', 'Developer') }}
 </footer>
-
-<script>
-    // Smooth Reveal on Scroll
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.card').forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'all 0.6s ease-out';
-        observer.observe(card);
-    });
-</script>
 
 </body>
 </html>
